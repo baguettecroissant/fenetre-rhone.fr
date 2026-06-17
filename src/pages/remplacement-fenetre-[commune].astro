@@ -1,0 +1,493 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Breadcrumb from '../components/Breadcrumb.astro';
+import SchemaMarkup from '../components/SchemaMarkup.astro';
+import StepsForm from '../components/StepsForm.astro';
+import CityMap from '../components/CityMap.astro';
+import communes from '../data/communes.json';
+import { generateCommuneContent, getDynamicPrices } from '../lib/contentEngine';
+import { getSmartNearbyCommunes } from '../lib/geoLinks';
+import config from '../data/config.json';
+
+export async function getStaticPaths() {
+  return communes.map((commune) => ({
+    params: { commune: commune.slug },
+    props: { commune }
+  }));
+}
+
+const { commune } = Astro.props;
+
+// Generate spun localized content
+const content = generateCommuneContent(commune, 'main');
+const prices = getDynamicPrices(commune);
+const nearbyCommunes = getSmartNearbyCommunes(commune.slug, communes, 6, 2);
+
+const title = `Remplacement de Fenêtres à ${commune.nom} (${commune.codePostal}) — Devis Gratuits RGE 2026`;
+const description = `Besoin d'installer ou remplacer vos fenêtres à ${commune.nom} ? PVC, Alu ou Bois. Estimez vos aides MaPrimeRénov' 2026 et comparez 3 devis de menuisiers RGE locaux.`;
+
+const breadcrumbItems = [
+  { label: "Accueil", href: "/" },
+  { label: "Villes (69)", href: "/communes/" },
+  { label: commune.nom }
+];
+---
+
+<Layout title={title} description={description}>
+  <SchemaMarkup 
+    slot="head"
+    pageUrl={Astro.url.href}
+    pageTitle={title}
+    pageDescription={description}
+    faqItems={content.faqItems}
+    breadcrumbItems={breadcrumbItems}
+    communeName={commune.nom}
+  />
+
+  <Breadcrumb items={breadcrumbItems} />
+
+  <!-- Localized Hero Section -->
+  <section class="city-hero" style="background: linear-gradient(135deg, var(--primary) 0%, #3B0918 100%); color: white; padding: 60px 0 80px; position: relative; overflow: hidden; border-bottom: 5px solid var(--secondary);">
+    <!-- Traboule pattern overlay -->
+    <div class="traboules-pattern"></div>
+    <div class="container" style="position: relative; z-index: 2;">
+      <div class="hero-columns" style="display: grid; grid-template-columns: 1.15fr 0.85fr; gap: 40px; align-items: center;">
+        
+        <!-- Left Text Column -->
+        <div class="hero-left">
+          <div class="aides-badge-shimmer" style="display: inline-block; background: linear-gradient(135deg, var(--secondary) 0%, #b45309 100%); color: white; font-weight: 800; font-size: 11px; padding: 6px 14px; border-radius: 50px; margin-bottom: 20px; text-transform: uppercase; letter-spacing: 0.5px; box-shadow: 0 4px 10px rgba(217, 119, 6, 0.3); position: relative; overflow: hidden;">
+            🎁 MaPrimeRénov' jusqu'à 40% de subvention
+          </div>
+          
+          <h1 style="font-family: var(--font-heading); font-size: 38px; font-weight: 950; line-height: 1.25; margin-bottom: 20px; color: white;">
+            Remplacement de Fenêtres à <span style="color: var(--secondary);">{commune.nom}</span> ({commune.codePostal})
+          </h1>
+          
+          <p style="font-size: 17px; line-height: 1.6; color: var(--primary-light); margin-bottom: 25px;">
+            {content.introParagraph}
+          </p>
+
+          <div class="key-features-list" style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 30px;">
+            <div style="display: flex; align-items: center; gap: 10px; font-size: 14.5px;">
+              <span style="color: var(--secondary); font-size: 18px;">✓</span> Poseurs Certifiés RGE 69
+            </div>
+            <div style="display: flex; align-items: center; gap: 10px; font-size: 14.5px;">
+              <span style="color: var(--secondary); font-size: 18px;">✓</span> TVA réduite à 5,5%
+            </div>
+            <div style="display: flex; align-items: center; gap: 10px; font-size: 14.5px;">
+              <span style="color: var(--secondary); font-size: 18px;">✓</span> Double vitrage thermique AEV
+            </div>
+            <div style="display: flex; align-items: center; gap: 10px; font-size: 14.5px;">
+              <span style="color: var(--secondary); font-size: 18px;">✓</span> Isolation Phonique Urbaine
+            </div>
+          </div>
+
+          <div class="local-fact-card" style="background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.15); padding: 20px; border-radius: var(--radius-md); backdrop-filter: blur(10px);">
+            <h4 style="margin: 0 0 8px; font-size: 14px; font-family: var(--font-heading); text-transform: uppercase; color: var(--secondary); font-weight: 800;">Indicateurs Habitat : {commune.nom}</h4>
+            <p style="margin: 0; font-size: 13.5px; color: var(--primary-light); line-height: 1.5;">
+              {content.populationTierContent} Le département du Rhône dispose d'enveloppes financières dédiées via l'ANAH et les CEE pour inciter à la pose d'ouvertures à isolation renforcée. {commune.nom} présente un taux annuel de rénovation thermique estimé à {commune.tauxRenovation}%.
+            </p>
+          </div>
+        </div>
+
+        <!-- Right Form Column -->
+        <div class="hero-right">
+          <div id="devis-form-container" style="background: var(--card-bg); border-radius: var(--radius-md); border: 1.5px solid var(--border-color); box-shadow: var(--shadow-lg); overflow: hidden;">
+            <div style="background: var(--primary); padding: 20px 30px; text-align: center; border-bottom: 2px solid var(--border-color);">
+              <h3 style="margin: 0; color: white; font-family: var(--font-heading); font-size: 18px; font-weight: 800;">Estimez vos aides à {commune.nom}</h3>
+              <p style="margin: 5px 0 0; color: var(--primary-light); font-size: 13px;">Réponse en 2 minutes - Gratuit &amp; RGE</p>
+            </div>
+            <div style="padding: 25px 30px;">
+              <StepsForm initialZip={commune.codePostal} initialCommune={commune.nom} />
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Localized Detail Content Section -->
+  <section class="city-details" style="padding: 60px 0 80px; background-color: var(--bg);">
+    <div class="container">
+      <div class="two-column-layout" style="display: grid; grid-template-columns: 2.3fr 1fr; gap: 40px; align-items: start;">
+        
+        <!-- Main spun content card -->
+        <div class="city-main-content rich-text" style="background: var(--card-bg); padding: 45px; border-radius: var(--radius-md); border: 1.5px solid var(--border-color); box-shadow: var(--shadow-sm);">
+          
+          <h2 style="font-family: var(--font-heading); font-size: 26px; font-weight: 850; color: var(--primary); margin-top: 0; margin-bottom: 20px;">
+            Rénovation et changement de fenêtre à {commune.nom} (69)
+          </h2>
+          <p>
+            {content.anecdotePatrimoine}
+          </p>
+          <p>
+            {content.savingsEstimate} Grâce à la qualification RGE de nos menuisiers partenaires, votre installation est réalisée en dépose totale ou en rénovation dans les règles de l'art, vous garantissant une étanchéité périphérique maximale exempte de ponts thermiques.
+          </p>
+          
+          <blockquote style="border-left: 4px solid var(--secondary); background: var(--primary-light); padding: 20px; margin: 25px 0; border-radius: var(--radius-sm); font-style: italic; color: var(--primary); font-size: 14.5px; line-height: 1.5;">
+            {content.expertTip}
+          </blockquote>
+
+          <h2 style="font-family: var(--font-heading); font-size: 24px; font-weight: 850; color: var(--primary); margin-top: 35px; margin-bottom: 15px;">
+            Le parcours de pose à {commune.nom} en 5 étapes clés
+          </h2>
+          <p>Qu'il s'agisse d'un appartement haussmannien en Presqu'île ou d'une maison de lotissement à {commune.nom}, nos artisans RGE appliquent un protocole rigoureux :</p>
+          <div style="display: grid; grid-template-columns: 1fr; gap: 16px; margin: 20px 0;">
+            <div style="display: flex; gap: 15px; padding: 18px; background: var(--primary-light); border-radius: var(--radius-sm); border-left: 4px solid var(--secondary);">
+              <span style="font-size: 24px; font-weight: 900; color: var(--secondary); min-width: 32px;">1</span>
+              <div>
+                <strong style="color: var(--primary); font-family: var(--font-heading);">Diagnostic technique à domicile</strong>
+                <p style="margin: 5px 0 0; font-size: 13.5px; color: var(--text-muted);">Prise de cotes précises, étude de l'exposition au vent (« {commune.windExposure} »), et vérification de la maçonnerie existante pour définir la méthode de pose.</p>
+              </div>
+            </div>
+            <div style="display: flex; gap: 15px; padding: 18px; background: var(--primary-light); border-radius: var(--radius-sm); border-left: 4px solid var(--secondary);">
+              <span style="font-size: 24px; font-weight: 900; color: var(--secondary); min-width: 32px;">2</span>
+              <div>
+                <strong style="color: var(--primary); font-family: var(--font-heading);">Simulation financière des aides</strong>
+                <p style="margin: 5px 0 0; font-size: 13.5px; color: var(--text-muted);">Estimation gratuite de votre reste à charge en intégrant la TVA 5,5%, la prime énergie CEE et l'aide MaPrimeRénov' de l'ANAH.</p>
+              </div>
+            </div>
+            <div style="display: flex; gap: 15px; padding: 18px; background: var(--primary-light); border-radius: var(--radius-sm); border-left: 4px solid var(--secondary);">
+              <span style="font-size: 24px; font-weight: 900; color: var(--secondary); min-width: 32px;">3</span>
+              <div>
+                <strong style="color: var(--primary); font-family: var(--font-heading);">Déclaration en mairie (Urbanisme)</strong>
+                <p style="margin: 5px 0 0; font-size: 13.5px; color: var(--text-muted);">{commune.secteurSauvegarde ? `En zone protégée ou d'intérêt patrimonial à ${commune.nom}, l'accord de l'Architecte des Bâtiments de France (ABF) est obligatoire. Nous vous aidons à constituer le dossier.` : `Dépôt d'une Déclaration Préalable (DP) en mairie de ${commune.nom} pour valider le changement d'aspect extérieur.`}</p>
+              </div>
+            </div>
+            <div style="display: flex; gap: 15px; padding: 18px; background: var(--primary-light); border-radius: var(--radius-sm); border-left: 4px solid var(--secondary);">
+              <span style="font-size: 24px; font-weight: 900; color: var(--secondary); min-width: 32px;">4</span>
+              <div>
+                <strong style="color: var(--primary); font-family: var(--font-heading);">Fabrication sur mesure et Installation</strong>
+                <p style="margin: 5px 0 0; font-size: 13.5px; color: var(--text-muted);">Vos menuiseries sont livrées et installées. L'artisan RGE effectue la pose (compter 1 à 2 jours pour une maison de ${commune.logementsMaison > 50 ? 'taille standard' : 'taille moyenne'}) en veillant à la propreté du chantier.</p>
+              </div>
+            </div>
+            <div style="display: flex; gap: 15px; padding: 18px; background: var(--primary-light); border-radius: var(--radius-sm); border-left: 4px solid var(--secondary);">
+              <span style="font-size: 24px; font-weight: 900; color: var(--secondary); min-width: 32px;">5</span>
+              <div>
+                <strong style="color: var(--primary); font-family: var(--font-heading);">Livraison et versement des subventions</strong>
+                <p style="margin: 5px 0 0; font-size: 13.5px; color: var(--text-muted);">Réception des travaux, signature de la facture acquittée et transmission des pièces pour l'octroi des aides sous 30 à 60 jours.</p>
+              </div>
+            </div>
+          </div>
+
+          <h2 style="font-family: var(--font-heading); font-size: 24px; font-weight: 850; color: var(--primary); margin-top: 40px; margin-bottom: 15px;">
+            Comparatif des vitrages : Simple vs Double vs Triple à {commune.nom}
+          </h2>
+          <p>Tableau des coefficients thermiques et acoustiques recommandés pour {commune.nom}, tenant compte de l'altitude de {commune.altitude} m et du climat continental lyonnais.</p>
+          <div class="table-scroll-wrapper" style="border: 1px solid var(--border-color); border-radius: var(--radius-sm); overflow: hidden; margin: 20px 0;">
+            <table class="data-table" style="width: 100%; border-collapse: collapse; margin: 0;">
+              <thead>
+                <tr style="background-color: var(--primary-light); color: var(--primary);">
+                  <th style="padding: 12px; border-bottom: 1px solid var(--border-color); text-align: left;">Critère technique</th>
+                  <th style="padding: 12px; border-bottom: 1px solid var(--border-color); text-align: center;">Simple vitrage</th>
+                  <th style="padding: 12px; border-bottom: 1px solid var(--border-color); text-align: center;">Double vitrage</th>
+                  <th style="padding: 12px; border-bottom: 1px solid var(--border-color); text-align: center;">Triple vitrage</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="padding: 12px; border-bottom: 1px solid var(--border-color); font-weight: 700;">Performance Uw (fenêtre)</td>
+                  <td style="padding: 12px; border-bottom: 1px solid var(--border-color); text-align: center; color: #ef4444; font-weight: 700;">5,0 W/m².K</td>
+                  <td style="padding: 12px; border-bottom: 1px solid var(--border-color); text-align: center; color: var(--secondary); font-weight: 700;">1,1 – 1,4 W/m².K</td>
+                  <td style="padding: 12px; border-bottom: 1px solid var(--border-color); text-align: center; color: #22c55e; font-weight: 700;">0,6 – 0,9 W/m².K</td>
+                </tr>
+                <tr>
+                  <td style="padding: 12px; border-bottom: 1px solid var(--border-color); font-weight: 700;">Facteur solaire (Sw)</td>
+                  <td style="padding: 12px; border-bottom: 1px solid var(--border-color); text-align: center;">0,85</td>
+                  <td style="padding: 12px; border-bottom: 1px solid var(--border-color); text-align: center;">0,35 – 0,65</td>
+                  <td style="padding: 12px; border-bottom: 1px solid var(--border-color); text-align: center;">0,25 – 0,45</td>
+                </tr>
+                <tr>
+                  <td style="padding: 12px; border-bottom: 1px solid var(--border-color); font-weight: 700;">Atténuation sonore moyenne</td>
+                  <td style="padding: 12px; border-bottom: 1px solid var(--border-color); text-align: center;">20 dB</td>
+                  <td style="padding: 12px; border-bottom: 1px solid var(--border-color); text-align: center;">32 – 38 dB</td>
+                  <td style="padding: 12px; border-bottom: 1px solid var(--border-color); text-align: center;">35 – 42 dB</td>
+                </tr>
+                <tr>
+                  <td style="padding: 12px; border-bottom: 1px solid var(--border-color); font-weight: 700;">Déperditions thermiques</td>
+                  <td style="padding: 12px; border-bottom: 1px solid var(--border-color); text-align: center;">100% (Référence)</td>
+                  <td style="padding: 12px; border-bottom: 1px solid var(--border-color); text-align: center; color: var(--secondary); font-weight: 700;">Divisées par 4</td>
+                  <td style="padding: 12px; border-bottom: 1px solid var(--border-color); text-align: center; color: #22c55e; font-weight: 700;">Divisées par 6</td>
+                </tr>
+                <tr>
+                  <td style="padding: 12px; font-weight: 700;">Recommandation {commune.nom}</td>
+                  <td style="padding: 12px; text-align: center; color: #ef4444;">❌ À remplacer</td>
+                  <td style="padding: 12px; text-align: center; color: var(--secondary); font-weight: 700;">✅ Optimal</td>
+                  <td style="padding: 12px; text-align: center;">{commune.altitude > 350 ? '✅ Recommandé (Altitude/Froid)' : '⚠️ Surcoût peu justifiable'}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <p style="font-size: 13.5px; color: var(--text-muted);">Le double vitrage renforcé à contrôle solaire représente le meilleur rapport qualité/prix isolant pour le climat rhodanien. Le triple vitrage est à réserver aux façades exposées au nord en altitude ou proches de zones particulièrement froides.</p>
+
+          <h2 style="font-family: var(--font-heading); font-size: 24px; font-weight: 850; color: var(--primary); margin-top: 35px; margin-bottom: 15px;">
+            Grille indicative des prix fenêtres à {commune.nom}
+          </h2>
+          <p>{content.tableIntro}</p>
+
+          <div class="table-scroll-wrapper" style="border: 1px solid var(--border-color); border-radius: var(--radius-sm); overflow: hidden; margin: 25px 0;">
+            <table class="data-table" style="width: 100%; border-collapse: collapse; margin: 0;">
+              <thead>
+                <tr style="background-color: var(--primary-light); color: var(--primary);">
+                  <th style="padding: 12px; border-bottom: 1px solid var(--border-color); text-align: left;">Matériau / Catégorie</th>
+                  <th style="padding: 12px; border-bottom: 1px solid var(--border-color); text-align: left;">Détails &amp; Performance</th>
+                  <th style="padding: 12px; border-bottom: 1px solid var(--border-color); text-align: right;">Tarif Posé TTC</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="padding: 12px; border-bottom: 1px solid var(--border-color); font-weight: 700;">Fenêtre PVC double vitrage</td>
+                  <td style="padding: 12px; border-bottom: 1px solid var(--border-color); color: var(--text-muted);">Isolation max, sans entretien</td>
+                  <td style="padding: 12px; border-bottom: 1px solid var(--border-color); text-align: right; font-family: var(--font-mono); font-weight: 700; color: var(--secondary);">{prices.pvcDouble.min} € – {prices.pvcDouble.max} €</td>
+                </tr>
+                <tr>
+                  <td style="padding: 12px; border-bottom: 1px solid var(--border-color); font-weight: 700;">Fenêtre aluminium double vitrage</td>
+                  <td style="padding: 12px; border-bottom: 1px solid var(--border-color); color: var(--text-muted);">Montants fins design, laquage RAL</td>
+                  <td style="padding: 12px; border-bottom: 1px solid var(--border-color); text-align: right; font-family: var(--font-mono); font-weight: 700; color: var(--secondary);">{prices.aluDouble.min} € – {prices.aluDouble.max} €</td>
+                </tr>
+                <tr>
+                  <td style="padding: 12px; border-bottom: 1px solid var(--border-color); font-weight: 700;">Fenêtre bois double vitrage</td>
+                  <td style="padding: 12px; border-bottom: 1px solid var(--border-color); color: var(--text-muted);">Chêne ou mélèze, requis en zone ABF</td>
+                  <td style="padding: 12px; border-bottom: 1px solid var(--border-color); text-align: right; font-family: var(--font-mono); font-weight: 700; color: var(--secondary);">{prices.boisDouble.min} € – {prices.boisDouble.max} €</td>
+                </tr>
+                <tr>
+                  <td style="padding: 12px; border-bottom: 1px solid var(--border-color); font-weight: 700;">Fenêtre mixte bois-alu</td>
+                  <td style="padding: 12px; border-bottom: 1px solid var(--border-color); color: var(--text-muted);">Intérieur chaleureux, extérieur alu durable</td>
+                  <td style="padding: 12px; border-bottom: 1px solid var(--border-color); text-align: right; font-family: var(--font-mono); font-weight: 700; color: var(--secondary);">{prices.mixteDouble.min} € – {prices.mixteDouble.max} €</td>
+                </tr>
+                <tr>
+                  <td style="padding: 12px; border-bottom: 1px solid var(--border-color); font-weight: 700;">Baie coulissante alu</td>
+                  <td style="padding: 12px; border-bottom: 1px solid var(--border-color); color: var(--text-muted);">2 vantaux 215x240cm, rupture pont</td>
+                  <td style="padding: 12px; border-bottom: 1px solid var(--border-color); text-align: right; font-family: var(--font-mono); font-weight: 700; color: var(--secondary);">{prices.baieAlu.min} € – {prices.baieAlu.max} €</td>
+                </tr>
+                <tr>
+                  <td style="padding: 12px; border-bottom: 1px solid var(--border-color); font-weight: 700;">Fenêtre de toit (Velux)</td>
+                  <td style="padding: 12px; border-bottom: 1px solid var(--border-color); color: var(--text-muted);">Vitrage confort acoustique</td>
+                  <td style="padding: 12px; border-bottom: 1px solid var(--border-color); text-align: right; font-family: var(--font-mono); font-weight: 700; color: var(--secondary);">{prices.velux.min} € – {prices.velux.max} €</td>
+                </tr>
+                <tr>
+                  <td style="padding: 12px; font-weight: 700;">Volet roulant motorisé alu</td>
+                  <td style="padding: 12px; color: var(--text-muted);">Motorisation Somfy filaire ou solaire</td>
+                  <td style="padding: 12px; text-align: right; font-family: var(--font-mono); font-weight: 700; color: var(--secondary);">{prices.voletElec.min} € – {prices.voletElec.max} €</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <p style="font-size: 13.5px; color: var(--text-muted); line-height: 1.5;">{content.marketDataText}</p>
+
+          <h2 style="font-family: var(--font-heading); font-size: 24px; font-weight: 850; color: var(--primary); margin-top: 35px; margin-bottom: 15px;">
+            Aides financières et subventions énergétiques à {commune.nom} (2026)
+          </h2>
+          <p>
+            {content.conseilAides} En outre, sachez que l'impact d'ouvertures neuves sur la valorisation de votre bien est considérable. {content.realEstateInsight}
+          </p>
+
+          <h2 style="font-family: var(--font-heading); font-size: 24px; font-weight: 850; color: var(--primary); margin-top: 35px; margin-bottom: 15px;">
+            Réglementations locales (ABF / PLU) et climat à {commune.nom}
+          </h2>
+          <p>
+            {content.abfRegulations}
+          </p>
+          <p>
+            {content.windExposureContext}
+          </p>
+
+          <p style="font-size: 12px; color: var(--text-muted); margin-top: 30px; padding-top: 15px; border-top: 1px solid var(--border-color); line-height: 1.5; font-style: italic;">
+            {content.sourcesCitation} Barèmes actualisés du Rhône : Juin 2026.
+          </p>
+
+          <!-- pSEO dynamic guide links -->
+          <h2 style="font-family: var(--font-heading); font-size: 24px; font-weight: 850; color: var(--primary); margin-top: 40px; margin-bottom: 15px;">
+            Dossiers conseils recommandés pour votre projet
+          </h2>
+          <div style="display: grid; grid-template-columns: 1fr; gap: 12px;">
+            {content.guideLinks.map(g => (
+              <a href={g.href} style="display: flex; align-items: center; gap: 12px; padding: 14px 18px; background: var(--primary-light); border-radius: var(--radius-sm); border: 1px solid var(--border-color); text-decoration: none; transition: transform 0.15s ease;">
+                <span style="font-size: 14px; font-weight: 700; color: var(--primary); font-family: var(--font-heading);">{g.label}</span>
+                <span style="font-size: 12.5px; color: var(--text-muted); margin-left: auto;">{g.desc}</span>
+              </a>
+            ))}
+          </div>
+
+          <!-- Maps localized -->
+          <h2 style="font-family: var(--font-heading); font-size: 24px; font-weight: 850; color: var(--primary); margin-top: 45px; margin-bottom: 15px;">
+            Zones d'intervention des menuisiers RGE autour de {commune.nom}
+          </h2>
+          <p>
+            Nos menuiseries partenaires locales interviennent sur l'ensemble de la commune de {commune.nom} et des localités avoisinantes du Rhône.
+          </p>
+          <CityMap cityName={commune.nom} zip={commune.codePostal} />
+
+          <!-- FAQ Accordion -->
+          <h2 style="font-family: var(--font-heading); font-size: 24px; font-weight: 850; color: var(--primary); margin-top: 45px; margin-bottom: 20px;">
+            FAQ : Remplacement de fenêtres à {commune.nom}
+          </h2>
+          <div class="faq-accordion" style="display: flex; flex-direction: column; gap: 15px;">
+            {content.faqItems.map((faq, idx) => (
+              <details style="background: white; border: 1.5px solid var(--border-color); border-radius: var(--radius-md); padding: 15px 20px;" open={idx === 0}>
+                <summary style="font-family: var(--font-heading); font-weight: 800; color: var(--primary); cursor: pointer; font-size: 15.5px; display: flex; justify-content: space-between; align-items: center; list-style: none;">
+                  <span>{faq.question}</span>
+                  <span style="color: var(--secondary); font-weight: bold;">▼</span>
+                </summary>
+                <p style="margin-top: 12px; margin-bottom: 0; font-size: 14.5px; line-height: 1.55; color: var(--text-muted);">
+                  {faq.answer}
+                </p>
+              </details>
+            ))}
+          </div>
+
+        </div>
+
+        <!-- Sidebar -->
+        <aside class="city-sidebar" style="display: flex; flex-direction: column; gap: 30px;">
+          
+          <!-- Local Info Widget -->
+          <div class="sidebar-widget" style="background: var(--card-bg); padding: 25px; border-radius: var(--radius-md); border: 1.5px solid var(--border-color); box-shadow: var(--shadow-sm);">
+            <h3 style="font-family: var(--font-heading); font-size: 16px; font-weight: 700; color: var(--primary); margin-bottom: 15px; border-bottom: 2px solid var(--primary-light); padding-bottom: 8px;">
+              📍 Fiche Locale : {commune.nom}
+            </h3>
+            <ul style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 12px; font-size: 13.5px; color: var(--text);">
+              <li style="display: flex; justify-content: space-between; border-bottom: 1px solid var(--primary-light); padding-bottom: 8px;">
+                <span>Code Postal</span>
+                <strong>{commune.codePostal}</strong>
+              </li>
+              <li style="display: flex; justify-content: space-between; border-bottom: 1px solid var(--primary-light); padding-bottom: 8px;">
+                <span>Altitude moyenne</span>
+                <strong>{commune.altitude} m</strong>
+              </li>
+              <li style="display: flex; justify-content: space-between; border-bottom: 1px solid var(--primary-light); padding-bottom: 8px;">
+                <span>Logements</span>
+                <strong>{commune.logements?.toLocaleString('fr-FR')}</strong>
+              </li>
+              <li style="display: flex; justify-content: space-between; border-bottom: 1px solid var(--primary-light); padding-bottom: 8px;">
+                <span>Menuisiers RGE</span>
+                <strong>{commune.menuisiersRGE} actifs</strong>
+              </li>
+              <li style="display: flex; justify-content: space-between;">
+                <span>Vents / Climat</span>
+                <strong style="color: var(--secondary); font-size: 12px; text-align: right;">{commune.windExposure}</strong>
+              </li>
+            </ul>
+          </div>
+
+          <!-- Dynamic links page types -->
+          <div class="sidebar-widget" style="background: var(--card-bg); padding: 25px; border-radius: var(--radius-md); border: 1.5px solid var(--border-color); box-shadow: var(--shadow-sm);">
+            <h3 style="font-family: var(--font-heading); font-size: 16px; font-weight: 700; color: var(--primary); margin-bottom: 15px; border-bottom: 2px solid var(--primary-light); padding-bottom: 8px;">
+              📂 Offres Spécialisées
+            </h3>
+            <ul style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 12px; font-size: 13.5px;">
+              <li>
+                🔍 <a href={`/fenetre-alu-${commune.slug}/`} style="color: var(--secondary); font-weight: 700; text-decoration: none;">Pose de Fenêtres Alu à {commune.nom}</a>
+              </li>
+              <li>
+                🔍 <a href={`/artisan-menuisier-${commune.slug}/`} style="color: var(--secondary); font-weight: 700; text-decoration: none;">Trouver un Menuisier RGE à {commune.nom}</a>
+              </li>
+            </ul>
+          </div>
+
+          <!-- Official Links -->
+          <div class="sidebar-widget" style="background: var(--card-bg); padding: 25px; border-radius: var(--radius-md); border: 1.5px solid var(--border-color); box-shadow: var(--shadow-sm);">
+            <h3 style="font-family: var(--font-heading); font-size: 16px; font-weight: 700; color: var(--primary); margin-bottom: 15px; border-bottom: 2px solid var(--primary-light); padding-bottom: 8px;">
+              🔗 Liens Utiles
+            </h3>
+            <ul style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 15px; font-size: 12.5px;">
+              {content.externalLinks.map(link => (
+                <li>
+                  <a href={link.url} target="_blank" rel="noopener noreferrer" style="color: var(--secondary); font-weight: 700; text-decoration: none; display: block; margin-bottom: 3px;">
+                    {link.label} &rarr;
+                  </a>
+                  <span style="color: var(--text-muted); line-height: 1.35; display: block;">{link.description}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <!-- Localized Proximity Links (SEO Interlinking) -->
+          <div class="sidebar-widget" style="background: var(--card-bg); padding: 25px; border-radius: var(--radius-md); border: 1.5px solid var(--border-color); box-shadow: var(--shadow-sm);">
+            <h3 style="font-family: var(--font-heading); font-size: 16px; font-weight: 700; color: var(--primary); margin-bottom: 15px; border-bottom: 2px solid var(--primary-light); padding-bottom: 8px;">
+              📍 Communes proches (69)
+            </h3>
+            <ul style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 10px; font-size: 13px;">
+              {nearbyCommunes.map((c) => (
+                <li>
+                  <a href={`/remplacement-fenetre-${c.slug}/`} style="color: var(--text); text-decoration: none; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #f3f4f6; padding-bottom: 6px;">
+                    <span>{c.nom} <span style="font-size: 11px; color: var(--text-muted);">({c.codePostal})</span></span>
+                    <span style="color: var(--accent); font-weight: bold;">&rarr;</span>
+                  </a>
+                  <div style="font-size: 10px; display: flex; gap: 5px; margin-top: 2px;">
+                    <a href={`/fenetre-alu-${c.slug}/`} style="color: var(--text-muted); text-decoration: none;" title={`Fenêtre Alu ${c.nom}`}>alu</a> · 
+                    <a href={`/artisan-menuisier-${c.slug}/`} style="color: var(--text-muted); text-decoration: none;" title={`Artisan RGE ${c.nom}`}>artisan</a>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+        </aside>
+
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .traboules-pattern {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60' viewBox='0 0 60 60'%3E%3Cpath d='M0 30 Q15 20 30 30 T60 30' fill='none' stroke='%23fecdd3' stroke-width='1.5' stroke-opacity='0.04'/%3E%3C/svg%3E");
+    z-index: 1;
+  }
+  
+  @media (max-width: 992px) {
+    .hero-columns {
+      grid-template-columns: 1fr !important;
+      gap: 30px !important;
+    }
+    .two-column-layout {
+      grid-template-columns: 1fr !important;
+      gap: 35px !important;
+    }
+  }
+
+  /* Rich text styles */
+  .rich-text :global(h2) {
+    font-family: var(--font-heading);
+    font-size: 22px;
+    font-weight: 800;
+    color: var(--primary);
+    margin-top: 35px;
+    margin-bottom: 15px;
+    border-bottom: 1.5px solid var(--border-color);
+    padding-bottom: 8px;
+  }
+  .rich-text :global(p) {
+    font-size: 15.5px;
+    line-height: 1.65;
+    color: var(--text);
+    margin-bottom: 20px;
+  }
+  
+  summary::-webkit-details-marker {
+    display: none;
+  }
+  details summary:hover {
+    color: var(--secondary) !important;
+  }
+  
+  @media (max-width: 768px) {
+    .key-features-list {
+      grid-template-columns: 1fr !important;
+      gap: 10px !important;
+    }
+    .city-hero h1 {
+      font-size: 26px !important;
+    }
+    .city-hero {
+      padding: 40px 0 50px !important;
+    }
+  }
+</style>

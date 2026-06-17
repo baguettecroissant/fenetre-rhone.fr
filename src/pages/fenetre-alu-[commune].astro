@@ -1,0 +1,419 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Breadcrumb from '../components/Breadcrumb.astro';
+import SchemaMarkup from '../components/SchemaMarkup.astro';
+import StepsForm from '../components/StepsForm.astro';
+import CityMap from '../components/CityMap.astro';
+import communes from '../data/communes.json';
+import { generateCommuneContent, getDynamicPrices } from '../lib/contentEngine';
+import { getSmartNearbyCommunes } from '../lib/geoLinks';
+import config from '../data/config.json';
+
+export async function getStaticPaths() {
+  return communes.map((commune) => ({
+    params: { commune: commune.slug },
+    props: { commune }
+  }));
+}
+
+const { commune } = Astro.props;
+
+// Generate spun localized content for Aluminium windows
+const content = generateCommuneContent(commune, 'alu');
+const prices = getDynamicPrices(commune);
+const nearbyCommunes = getSmartNearbyCommunes(commune.slug, communes, 6, 2);
+
+const title = `Fenêtre Aluminium à ${commune.nom} (${commune.codePostal}) — Devis Menuisier RGE`;
+const description = `Installation de fenêtres alu sur mesure et baies coulissantes à ${commune.nom}. Estimez vos aides 2026 et comparez 3 devis RGE gratuits.`;
+
+const breadcrumbItems = [
+  { label: "Accueil", href: "/" },
+  { label: "Villes (69)", href: "/communes/" },
+  { label: `Fenêtres Alu ${commune.nom}` }
+];
+---
+
+<Layout title={title} description={description}>
+  <SchemaMarkup 
+    slot="head"
+    pageUrl={Astro.url.href}
+    pageTitle={title}
+    pageDescription={description}
+    faqItems={content.faqItems}
+    breadcrumbItems={breadcrumbItems}
+    communeName={commune.nom}
+  />
+
+  <Breadcrumb items={breadcrumbItems} />
+
+  <!-- Localized Hero Section -->
+  <section class="city-hero" style="background: linear-gradient(135deg, var(--primary) 0%, #3B0918 100%); color: white; padding: 60px 0 80px; position: relative; overflow: hidden; border-bottom: 5px solid var(--secondary);">
+    <!-- Traboule pattern overlay -->
+    <div class="traboules-pattern"></div>
+    <div class="container" style="position: relative; z-index: 2;">
+      <div class="hero-columns" style="display: grid; grid-template-columns: 1.15fr 0.85fr; gap: 40px; align-items: center;">
+        
+        <!-- Left Text Column -->
+        <div class="hero-left">
+          <div class="aides-badge-shimmer" style="display: inline-block; background: linear-gradient(135deg, var(--secondary) 0%, #b45309 100%); color: white; font-weight: 800; font-size: 11px; padding: 6px 14px; border-radius: 50px; margin-bottom: 20px; text-transform: uppercase; letter-spacing: 0.5px; box-shadow: 0 4px 10px rgba(217, 119, 6, 0.3); position: relative; overflow: hidden;">
+            ✨ Rupture de pont thermique &amp; Profils extra-fins
+          </div>
+          
+          <h1 style="font-family: var(--font-heading); font-size: 38px; font-weight: 950; line-height: 1.25; margin-bottom: 20px; color: white;">
+            Fenêtre Aluminium à <span style="color: var(--secondary);">{commune.nom}</span> ({commune.codePostal})
+          </h1>
+          
+          <p style="font-size: 17px; line-height: 1.6; color: var(--primary-light); margin-bottom: 25px;">
+            {content.introParagraph}
+          </p>
+
+          <div class="key-features-list" style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 30px;">
+            <div style="display: flex; align-items: center; gap: 10px; font-size: 14.5px;">
+              <span style="color: var(--secondary); font-size: 18px;">✓</span> Clair de vitrage maximal (+15% lumière)
+            </div>
+            <div style="display: flex; align-items: center; gap: 10px; font-size: 14.5px;">
+              <span style="color: var(--secondary); font-size: 18px;">✓</span> Laquage certifié Qualicoat / Qualimarine
+            </div>
+            <div style="display: flex; align-items: center; gap: 10px; font-size: 14.5px;">
+              <span style="color: var(--secondary); font-size: 18px;">✓</span> Coefficient Uw ≤ 1.3 W/m².K
+            </div>
+            <div style="display: flex; align-items: center; gap: 10px; font-size: 14.5px;">
+              <span style="color: var(--secondary); font-size: 18px;">✓</span> Artisans RGE Qualibat du 69
+            </div>
+          </div>
+
+          <div class="local-fact-card" style="background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.15); padding: 20px; border-radius: var(--radius-md); backdrop-filter: blur(10px);">
+            <h4 style="margin: 0 0 8px; font-size: 14px; font-family: var(--font-heading); text-transform: uppercase; color: var(--secondary); font-weight: 800;">Performances Rhône : {commune.nom}</h4>
+            <p style="margin: 0; font-size: 13.5px; color: var(--primary-light); line-height: 1.5;">
+              {content.populationTierContent} Les fenêtres en aluminium sont recommandées pour résister au climat continental de {commune.nom}. Elles offrent une stabilité thermique parfaite face aux canicules d'été tout en isolant efficacement en hiver.
+            </p>
+          </div>
+        </div>
+
+        <!-- Right Form Column -->
+        <div class="hero-right">
+          <div id="devis-form-container" style="background: var(--card-bg); border-radius: var(--radius-md); border: 1.5px solid var(--border-color); box-shadow: var(--shadow-lg); overflow: hidden;">
+            <div style="background: var(--primary); padding: 20px 30px; text-align: center; border-bottom: 2px solid var(--border-color);">
+              <h3 style="margin: 0; color: white; font-family: var(--font-heading); font-size: 18px; font-weight: 800;">Prix de pose Alu à {commune.nom}</h3>
+              <p style="margin: 5px 0 0; color: var(--primary-light); font-size: 13px;">Estimation en ligne - Gratuit &amp; RGE</p>
+            </div>
+            <div style="padding: 25px 30px;">
+              <StepsForm initialZip={commune.codePostal} initialCommune={commune.nom} />
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Localized Detail Content Section -->
+  <section class="city-details" style="padding: 60px 0 80px; background-color: var(--bg);">
+    <div class="container">
+      <div class="two-column-layout" style="display: grid; grid-template-columns: 2.3fr 1fr; gap: 40px; align-items: start;">
+        
+        <!-- Main spun content card -->
+        <div class="city-main-content rich-text" style="background: var(--card-bg); padding: 45px; border-radius: var(--radius-md); border: 1.5px solid var(--border-color); box-shadow: var(--shadow-sm);">
+          
+          <h2 style="font-family: var(--font-heading); font-size: 26px; font-weight: 850; color: var(--primary); margin-top: 0; margin-bottom: 20px;">
+            Les avantages des menuiseries aluminium à {commune.nom} (69)
+          </h2>
+          <p>
+            {content.anecdotePatrimoine}
+          </p>
+          <p>
+            {content.savingsEstimate} Grâce à la rupture de pont thermique complète par barrettes polyamide, l'aluminium moderne rivalise d'isolation avec les meilleurs profilés. Il supprime définitivement l'effet de paroi froide et réduit vos factures énergétiques dans le Rhône.
+          </p>
+          
+          <blockquote style="border-left: 4px solid var(--secondary); background: var(--primary-light); padding: 20px; margin: 25px 0; border-radius: var(--radius-sm); font-style: italic; color: var(--primary); font-size: 14.5px; line-height: 1.5;">
+            {content.expertTip}
+          </blockquote>
+
+          <h2 style="font-family: var(--font-heading); font-size: 24px; font-weight: 850; color: var(--primary); margin-top: 35px; margin-bottom: 15px;">
+            Pourquoi opter pour des baies coulissantes et fenêtres alu ?
+          </h2>
+          <p>L'aluminium présente des caractéristiques techniques optimales pour les habitations de {commune.nom} :</p>
+          <div style="display: grid; grid-template-columns: 1fr; gap: 16px; margin: 20px 0;">
+            <div style="display: flex; gap: 15px; padding: 18px; background: var(--primary-light); border-radius: var(--radius-sm); border-left: 4px solid var(--secondary);">
+              <span style="font-size: 24px; font-weight: 900; color: var(--secondary); min-width: 32px;">1</span>
+              <div>
+                <strong style="color: var(--primary); font-family: var(--font-heading);">Finesse des profilés et apports solaires (Sw)</strong>
+                <p style="margin: 5px 0 0; font-size: 13.5px; color: var(--text-muted);">Les montants fins augmentent la surface vitrée de 15% par rapport au PVC. Vous captez plus de lumière naturelle et bénéficiez d'une chaleur gratuite en hiver.</p>
+              </div>
+            </div>
+            <div style="display: flex; gap: 15px; padding: 18px; background: var(--primary-light); border-radius: var(--radius-sm); border-left: 4px solid var(--secondary);">
+              <span style="font-size: 24px; font-weight: 900; color: var(--secondary); min-width: 32px;">2</span>
+              <div>
+                <strong style="color: var(--primary); font-family: var(--font-heading);">Solidité structurelle</strong>
+                <p style="margin: 5px 0 0; font-size: 13.5px; color: var(--text-muted);">L'aluminium est idéal pour les grandes dimensions comme les baies vitrées coulissantes de terrasses ou les verrières. Aucun risque de déformation dans le temps.</p>
+              </div>
+            </div>
+            <div style="display: flex; gap: 15px; padding: 18px; background: var(--primary-light); border-radius: var(--radius-sm); border-left: 4px solid var(--secondary);">
+              <span style="font-size: 24px; font-weight: 900; color: var(--secondary); min-width: 32px;">3</span>
+              <div>
+                <strong style="color: var(--primary); font-family: var(--font-heading);">Bicoloration et choix de finitions (RAL)</strong>
+                <p style="margin: 5px 0 0; font-size: 13.5px; color: var(--text-muted);">Choisissez une teinte extérieure pour respecter la façade (comme le gris anthracite RAL 7016, très prisé dans le Rhône) et du blanc à l'intérieur pour préserver la clarté des pièces.</p>
+              </div>
+            </div>
+          </div>
+
+          <h2 style="font-family: var(--font-heading); font-size: 24px; font-weight: 850; color: var(--primary); margin-top: 40px; margin-bottom: 15px;">
+            Grille indicative des prix menuiseries aluminium à {commune.nom}
+          </h2>
+          <p>{content.tableIntro}</p>
+
+          <div class="table-scroll-wrapper" style="border: 1px solid var(--border-color); border-radius: var(--radius-sm); overflow: hidden; margin: 25px 0;">
+            <table class="data-table" style="width: 100%; border-collapse: collapse; margin: 0;">
+              <thead>
+                <tr style="background-color: var(--primary-light); color: var(--primary);">
+                  <th style="padding: 12px; border-bottom: 1px solid var(--border-color); text-align: left;">Type de menuiserie Alu</th>
+                  <th style="padding: 12px; border-bottom: 1px solid var(--border-color); text-align: left;">Détails techniques</th>
+                  <th style="padding: 12px; border-bottom: 1px solid var(--border-color); text-align: right;">Tarif Posé TTC</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="padding: 12px; border-bottom: 1px solid var(--border-color); font-weight: 700;">Fenêtre alu double vitrage (1 vantail)</td>
+                  <td style="padding: 12px; border-bottom: 1px solid var(--border-color); color: var(--text-muted);">L60 x H80 cm, oscillo-battant</td>
+                  <td style="padding: 12px; border-bottom: 1px solid var(--border-color); text-align: right; font-family: var(--font-mono); font-weight: 700; color: var(--secondary);">{prices.aluDouble.min} € – {Math.round(prices.aluDouble.max * 0.7)} €</td>
+                </tr>
+                <tr>
+                  <td style="padding: 12px; border-bottom: 1px solid var(--border-color); font-weight: 700;">Fenêtre alu double vitrage (2 vantaux)</td>
+                  <td style="padding: 12px; border-bottom: 1px solid var(--border-color); color: var(--text-muted);">L120 x H130 cm, profilés fins</td>
+                  <td style="padding: 12px; border-bottom: 1px solid var(--border-color); text-align: right; font-family: var(--font-mono); font-weight: 700; color: var(--secondary);">{Math.round(prices.aluDouble.min * 1.1)} € – {prices.aluDouble.max} €</td>
+                </tr>
+                <tr>
+                  <td style="padding: 12px; border-bottom: 1px solid var(--border-color); font-weight: 700;">Baie coulissante alu (2 vantaux)</td>
+                  <td style="padding: 12px; border-bottom: 1px solid var(--border-color); color: var(--text-muted);">L240 x H215 cm, seuil encastré PMR</td>
+                  <td style="padding: 12px; border-bottom: 1px solid var(--border-color); text-align: right; font-family: var(--font-mono); font-weight: 700; color: var(--secondary);">{prices.baieAlu.min} € – {prices.baieAlu.max} €</td>
+                </tr>
+                <tr>
+                  <td style="padding: 12px; border-bottom: 1px solid var(--border-color); font-weight: 700;">Porte-fenêtre alu (2 vantaux)</td>
+                  <td style="padding: 12px; border-bottom: 1px solid var(--border-color); color: var(--text-muted);">L140 x H215 cm, serrure de sécurité</td>
+                  <td style="padding: 12px; border-bottom: 1px solid var(--border-color); text-align: right; font-family: var(--font-mono); font-weight: 700; color: var(--secondary);">{Math.round(prices.aluDouble.min * 1.4)} € – {Math.round(prices.aluDouble.max * 1.6)} €</td>
+                </tr>
+                <tr>
+                  <td style="padding: 12px; border-bottom: 1px solid var(--border-color); font-weight: 700;">Fenêtre mixte bois-alu</td>
+                  <td style="padding: 12px; border-bottom: 1px solid var(--border-color); color: var(--text-muted);">Isolation max bois + extérieur alu</td>
+                  <td style="padding: 12px; border-bottom: 1px solid var(--border-color); text-align: right; font-family: var(--font-mono); font-weight: 700; color: var(--secondary);">{prices.mixteDouble.min} € – {prices.mixteDouble.max} €</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <p style="font-size: 13.5px; color: var(--text-muted); line-height: 1.5;">{content.marketDataText}</p>
+
+          <h2 style="font-family: var(--font-heading); font-size: 24px; font-weight: 850; color: var(--primary); margin-top: 35px; margin-bottom: 15px;">
+            Aides et subventions 2026 pour vos fenêtres alu à {commune.nom}
+          </h2>
+          <p>
+            {content.conseilAides} En outre, l'amélioration de vos vitrages joue un rôle majeur sur la valeur de votre bien. {content.realEstateInsight}
+          </p>
+
+          <h2 style="font-family: var(--font-heading); font-size: 24px; font-weight: 850; color: var(--primary); margin-top: 35px; margin-bottom: 15px;">
+            Urbanisme (ABF / PLU) et climat à {commune.nom}
+          </h2>
+          <p>
+            {content.abfRegulations}
+          </p>
+          <p>
+            {content.windExposureContext}
+          </p>
+
+          <p style="font-size: 12px; color: var(--text-muted); margin-top: 30px; padding-top: 15px; border-top: 1px solid var(--border-color); line-height: 1.5; font-style: italic;">
+            {content.sourcesCitation} Données actualisées : Juin 2026.
+          </p>
+
+          <!-- pSEO dynamic guide links -->
+          <h2 style="font-family: var(--font-heading); font-size: 24px; font-weight: 850; color: var(--primary); margin-top: 40px; margin-bottom: 15px;">
+            Guides pratiques et dossiers de rénovation
+          </h2>
+          <div style="display: grid; grid-template-columns: 1fr; gap: 12px;">
+            {content.guideLinks.map(g => (
+              <a href={g.href} style="display: flex; align-items: center; gap: 12px; padding: 14px 18px; background: var(--primary-light); border-radius: var(--radius-sm); border: 1px solid var(--border-color); text-decoration: none; transition: transform 0.15s ease;">
+                <span style="font-size: 14px; font-weight: 700; color: var(--primary); font-family: var(--font-heading);">{g.label}</span>
+                <span style="font-size: 12.5px; color: var(--text-muted); margin-left: auto;">{g.desc}</span>
+              </a>
+            ))}
+          </div>
+
+          <!-- Maps localized -->
+          <h2 style="font-family: var(--font-heading); font-size: 24px; font-weight: 850; color: var(--primary); margin-top: 45px; margin-bottom: 15px;">
+            Secteur d'intervention des menuisiers alu certifiés à {commune.nom}
+          </h2>
+          <p>
+            Les installateurs qualifiés RGE du 69 interviennent pour la pose de vos fenêtres et baies vitrées coulissantes sur l'ensemble de {commune.nom} et des villes proches du Rhône.
+          </p>
+          <CityMap cityName={commune.nom} zip={commune.codePostal} />
+
+          <!-- FAQ Accordion -->
+          <h2 style="font-family: var(--font-heading); font-size: 24px; font-weight: 850; color: var(--primary); margin-top: 45px; margin-bottom: 20px;">
+            FAQ : Installation de fenêtres aluminium à {commune.nom}
+          </h2>
+          <div class="faq-accordion" style="display: flex; flex-direction: column; gap: 15px;">
+            {content.faqItems.map((faq, idx) => (
+              <details style="background: white; border: 1.5px solid var(--border-color); border-radius: var(--radius-md); padding: 15px 20px;" open={idx === 0}>
+                <summary style="font-family: var(--font-heading); font-weight: 800; color: var(--primary); cursor: pointer; font-size: 15.5px; display: flex; justify-content: space-between; align-items: center; list-style: none;">
+                  <span>{faq.question}</span>
+                  <span style="color: var(--secondary); font-weight: bold;">▼</span>
+                </summary>
+                <p style="margin-top: 12px; margin-bottom: 0; font-size: 14.5px; line-height: 1.55; color: var(--text-muted);">
+                  {faq.answer}
+                </p>
+              </details>
+            ))}
+          </div>
+
+        </div>
+
+        <!-- Sidebar -->
+        <aside class="city-sidebar" style="display: flex; flex-direction: column; gap: 30px;">
+          
+          <!-- Local Info Widget -->
+          <div class="sidebar-widget" style="background: var(--card-bg); padding: 25px; border-radius: var(--radius-md); border: 1.5px solid var(--border-color); box-shadow: var(--shadow-sm);">
+            <h3 style="font-family: var(--font-heading); font-size: 16px; font-weight: 700; color: var(--primary); margin-bottom: 15px; border-bottom: 2px solid var(--primary-light); padding-bottom: 8px;">
+              📍 Fiche Technique : {commune.nom}
+            </h3>
+            <ul style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 12px; font-size: 13.5px; color: var(--text);">
+              <li style="display: flex; justify-content: space-between; border-bottom: 1px solid var(--primary-light); padding-bottom: 8px;">
+                <span>Code Postal</span>
+                <strong>{commune.codePostal}</strong>
+              </li>
+              <li style="display: flex; justify-content: space-between; border-bottom: 1px solid var(--primary-light); padding-bottom: 8px;">
+                <span>Altitude</span>
+                <strong>{commune.altitude} m</strong>
+              </li>
+              <li style="display: flex; justify-content: space-between; border-bottom: 1px solid var(--primary-light); padding-bottom: 8px;">
+                <span>Logements</span>
+                <strong>{commune.logements?.toLocaleString('fr-FR')}</strong>
+              </li>
+              <li style="display: flex; justify-content: space-between; border-bottom: 1px solid var(--primary-light); padding-bottom: 8px;">
+                <span>Menuisiers RGE</span>
+                <strong>{commune.menuisiersRGE} actifs</strong>
+              </li>
+              <li style="display: flex; justify-content: space-between;">
+                <span>Climat (Vents)</span>
+                <strong style="color: var(--secondary); font-size: 12px; text-align: right;">{commune.windExposure}</strong>
+              </li>
+            </ul>
+          </div>
+
+          <!-- Dynamic links page types -->
+          <div class="sidebar-widget" style="background: var(--card-bg); padding: 25px; border-radius: var(--radius-md); border: 1.5px solid var(--border-color); box-shadow: var(--shadow-sm);">
+            <h3 style="font-family: var(--font-heading); font-size: 16px; font-weight: 700; color: var(--primary); margin-bottom: 15px; border-bottom: 2px solid var(--primary-light); padding-bottom: 8px;">
+              📂 Autres demandes
+            </h3>
+            <ul style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 12px; font-size: 13.5px;">
+              <li>
+                🔍 <a href={`/remplacement-fenetre-${commune.slug}/`} style="color: var(--secondary); font-weight: 700; text-decoration: none;">Pose de Fenêtres à {commune.nom} (PVC/Bois)</a>
+              </li>
+              <li>
+                🔍 <a href={`/artisan-menuisier-${commune.slug}/`} style="color: var(--secondary); font-weight: 700; text-decoration: none;">Trouver un Menuisier RGE à {commune.nom}</a>
+              </li>
+            </ul>
+          </div>
+
+          <!-- Official Links -->
+          <div class="sidebar-widget" style="background: var(--card-bg); padding: 25px; border-radius: var(--radius-md); border: 1.5px solid var(--border-color); box-shadow: var(--shadow-sm);">
+            <h3 style="font-family: var(--font-heading); font-size: 16px; font-weight: 700; color: var(--primary); margin-bottom: 15px; border-bottom: 2px solid var(--primary-light); padding-bottom: 8px;">
+              🔗 Liens Officiels
+            </h3>
+            <ul style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 15px; font-size: 12.5px;">
+              {content.externalLinks.map(link => (
+                <li>
+                  <a href={link.url} target="_blank" rel="noopener noreferrer" style="color: var(--secondary); font-weight: 700; text-decoration: none; display: block; margin-bottom: 3px;">
+                    {link.label} &rarr;
+                  </a>
+                  <span style="color: var(--text-muted); line-height: 1.35; display: block;">{link.description}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <!-- Localized Proximity Links (SEO Interlinking) -->
+          <div class="sidebar-widget" style="background: var(--card-bg); padding: 25px; border-radius: var(--radius-md); border: 1.5px solid var(--border-color); box-shadow: var(--shadow-sm);">
+            <h3 style="font-family: var(--font-heading); font-size: 16px; font-weight: 700; color: var(--primary); margin-bottom: 15px; border-bottom: 2px solid var(--primary-light); padding-bottom: 8px;">
+              📍 Communes proches (69)
+            </h3>
+            <ul style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 10px; font-size: 13px;">
+              {nearbyCommunes.map((c) => (
+                <li>
+                  <a href={`/fenetre-alu-${c.slug}/`} style="color: var(--text); text-decoration: none; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #f3f4f6; padding-bottom: 6px;">
+                    <span>{c.nom} <span style="font-size: 11px; color: var(--text-muted);">({c.codePostal})</span></span>
+                    <span style="color: var(--accent); font-weight: bold;">&rarr;</span>
+                  </a>
+                  <div style="font-size: 10px; display: flex; gap: 5px; margin-top: 2px;">
+                    <a href={`/remplacement-fenetre-${c.slug}/`} style="color: var(--text-muted); text-decoration: none;" title={`Fenêtres PVC/Bois ${c.nom}`}>général</a> · 
+                    <a href={`/artisan-menuisier-${c.slug}/`} style="color: var(--text-muted); text-decoration: none;" title={`Artisan RGE ${c.nom}`}>artisan</a>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+        </aside>
+
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .traboules-pattern {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60' viewBox='0 0 60 60'%3E%3Cpath d='M0 30 Q15 20 30 30 T60 30' fill='none' stroke='%23fecdd3' stroke-width='1.5' stroke-opacity='0.04'/%3E%3C/svg%3E");
+    z-index: 1;
+  }
+  
+  @media (max-width: 992px) {
+    .hero-columns {
+      grid-template-columns: 1fr !important;
+      gap: 30px !important;
+    }
+    .two-column-layout {
+      grid-template-columns: 1fr !important;
+      gap: 35px !important;
+    }
+  }
+
+  /* Rich text styles */
+  .rich-text :global(h2) {
+    font-family: var(--font-heading);
+    font-size: 22px;
+    font-weight: 800;
+    color: var(--primary);
+    margin-top: 35px;
+    margin-bottom: 15px;
+    border-bottom: 1.5px solid var(--border-color);
+    padding-bottom: 8px;
+  }
+  .rich-text :global(p) {
+    font-size: 15.5px;
+    line-height: 1.65;
+    color: var(--text);
+    margin-bottom: 20px;
+  }
+  
+  summary::-webkit-details-marker {
+    display: none;
+  }
+  details summary:hover {
+    color: var(--secondary) !important;
+  }
+  
+  @media (max-width: 768px) {
+    .key-features-list {
+      grid-template-columns: 1fr !important;
+      gap: 10px !important;
+    }
+    .city-hero h1 {
+      font-size: 26px !important;
+    }
+    .city-hero {
+      padding: 40px 0 50px !important;
+    }
+  }
+</style>

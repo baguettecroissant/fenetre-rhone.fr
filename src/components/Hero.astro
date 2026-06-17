@@ -1,0 +1,53 @@
+---
+import StepsForm from './StepsForm.astro';
+import config from '../data/config.json';
+---
+
+<section class="hero">
+  <div class="container hero-inner">
+    <!-- Left text content -->
+    <div class="hero-content">
+      <div class="hero-badge">
+        <span>🏷️</span> Éco-PTZ jusqu'à 50 000€ sans intérêts
+      </div>
+      
+      <h1>
+        Remplacement de Fenêtres dans le <span style="color: var(--secondary);">Rhône (69)</span> — Devis Gratuits 2026
+      </h1>
+      
+      <p>
+        Besoin d'installer ou de changer vos fenêtres ? PVC, aluminium, bois ou mixte. Bénéficiez des subventions nationales <strong>MaPrimeRénov' 2026</strong> et comparez les offres des meilleurs artisans menuisiers certifiés RGE du Rhône.
+      </p>
+
+      <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; margin-top: 10px;">
+        <div style="display: flex; align-items: center; gap: 8px; font-size: 14.5px;">
+          <span style="color: var(--secondary); font-weight: bold; font-size: 18px;">✓</span> Menuisiers RGE Qualibat
+        </div>
+        <div style="display: flex; align-items: center; gap: 8px; font-size: 14.5px;">
+          <span style="color: var(--secondary); font-weight: bold; font-size: 18px;">✓</span> TVA réduite à 5,5%
+        </div>
+        <div style="display: flex; align-items: center; gap: 8px; font-size: 14.5px;">
+          <span style="color: var(--secondary); font-weight: bold; font-size: 18px;">✓</span> Double Vitrage AEV Thermique
+        </div>
+        <div style="display: flex; align-items: center; gap: 8px; font-size: 14.5px;">
+          <span style="color: var(--secondary); font-weight: bold; font-size: 18px;">✓</span> Solutions acoustiques anti-bruit
+        </div>
+      </div>
+      
+      <!-- Visual hero image slot -->
+      <div style="margin-top: 35px;" class="hero-image-container">
+        <img 
+          src="/images/hero-fenetre-rhone.png" 
+          alt="Appartement lyonnais avec fenêtres rénovées en aluminium anthracite, vue sur la colline de Fourvière" 
+          class="hero-img"
+          loading="eager"
+        />
+      </div>
+    </div>
+
+    <!-- Right steps form -->
+    <div class="hero-right">
+      <StepsForm />
+    </div>
+  </div>
+</section>

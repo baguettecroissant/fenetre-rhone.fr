@@ -1,0 +1,66 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Breadcrumb from '../components/Breadcrumb.astro';
+import config from '../data/config.json';
+
+const title = `Mentions Légales | ${config.brandName}`;
+const description = `Consultez les mentions légales et informations réglementaires du site ${config.domain}.`;
+
+const breadcrumbItems = [
+  { label: "Accueil", href: "/" },
+  { label: "Mentions Légales" }
+];
+---
+
+<Layout title={title} description={description} robots="noindex, nofollow">
+  <Breadcrumb items={breadcrumbItems} />
+
+  <div class="container" style="max-width: 800px; padding-top: 40px; padding-bottom: 70px;">
+    <div style="background-color: var(--card-bg); border: 1.5px solid var(--border-color); border-radius: var(--radius-md); padding: 40px 30px; box-shadow: var(--shadow-sm);">
+      <h1 style="font-size: 30px; color: var(--primary); font-family: var(--font-heading); font-weight: 800; margin-top: 0; margin-bottom: 25px;">Mentions Légales</h1>
+      
+      <div style="font-size: 14.5px; color: var(--text); line-height: 1.6; display: flex; flex-direction: column; gap: 20px;">
+        <p>
+          Conformément aux dispositions de l'article 6 de la loi n° 2004-575 du 21 juin 2004 pour la confiance dans l'économie numérique, il est précisé aux utilisateurs du site internet <strong>{config.domain}</strong> l'identité des différents intervenants dans le cadre de sa réalisation et de son suivi.
+        </p>
+
+        <div>
+          <h2 style="font-size: 18px; color: var(--primary); font-weight: bold; margin-top: 0; margin-bottom: 8px;">Éditeur du site</h2>
+          <p style="margin: 0;">
+            Le site internet <strong>{config.domain}</strong> est édité dans le cadre d'un projet de mise en relation locale (Rank &amp; Rent). Pour toute demande ou question relative aux offres, veuillez soumettre le formulaire de devis prévu à cet effet.
+          </p>
+        </div>
+
+        <div>
+          <h2 style="font-size: 18px; color: var(--primary); font-weight: bold; margin-top: 0; margin-bottom: 8px;">Hébergement</h2>
+          <p style="margin: 0;">
+            Le site est hébergé par la société <strong>Cloudflare, Inc.</strong><br />
+            Adresse : 101 Townsend St, San Francisco, CA 94107, États-Unis<br />
+            Site internet : <a href="https://www.cloudflare.com" target="_blank" rel="noopener noreferrer" style="color: var(--secondary); text-decoration: none;">www.cloudflare.com</a>
+          </p>
+        </div>
+
+        <div>
+          <h2 style="font-size: 18px; color: var(--primary); font-weight: bold; margin-top: 0; margin-bottom: 8px;">Propriété intellectuelle</h2>
+          <p style="margin: 0;">
+            Tous les contenus présents sur le site (textes, images, illustrations, logos) sont protégés par le droit d'auteur. Toute reproduction ou représentation, intégrale ou partielle, du site ou de l'un de ses éléments, par quelque procédé que ce soit, sans autorisation expresse de l'éditeur, est interdite et constituerait une contrefaçon sanctionnée par les articles L. 335-2 et suivants du Code de la propriété intellectuelle.
+          </p>
+        </div>
+
+        <div>
+          <h2 style="font-size: 18px; color: var(--primary); font-weight: bold; margin-top: 0; margin-bottom: 8px;">Traitement des données personnelles</h2>
+          <p style="margin: 0;">
+            Les informations recueillies via le formulaire de demande de devis font l'objet d'un traitement informatique destiné à la mise en relation avec des menuisiers qualifiés RGE du Rhône. Pour en savoir plus sur la gestion de vos données et l'exercice de vos droits (accès, modification, suppression), veuillez consulter notre <a href="/politique-confidentialite/" style="color: var(--secondary); text-decoration: none;">Politique de Confidentialité</a>.
+          </p>
+        </div>
+
+        <div>
+          <h2 style="font-size: 18px; color: var(--primary); font-weight: bold; margin-top: 0; margin-bottom: 8px;">Mise en relation et Devis</h2>
+          <p style="margin: 0;">
+            Ce site propose un service gratuit de mise en relation avec des entreprises spécialisées dans la pose de menuiseries (fenêtres, baies vitrées, volets). Les estimations chiffrées sont fournies à titre indicatif et ne sauraient engager la responsabilité de l'éditeur du site. Les devis définitifs sont établis par les menuisiers après visite technique de votre logement.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</Layout>

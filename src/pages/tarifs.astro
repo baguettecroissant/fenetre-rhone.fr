@@ -1,0 +1,152 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Breadcrumb from '../components/Breadcrumb.astro';
+import SchemaMarkup from '../components/SchemaMarkup.astro';
+import config from '../data/config.json';
+
+const title = `Tarifs Remplacement Fenêtre Rhône (69) — Prix Rénovation 2026`;
+const description = `Consultez la grille des tarifs pour le changement de fenêtres (PVC, alu, bois) et baies vitrées dans le 69. Estimez vos aides MaPrimeRénov' et obtenez un devis gratuit.`;
+
+const breadcrumbItems = [
+  { label: "Accueil", href: "/" },
+  { label: "Tarifs Menuiserie" }
+];
+---
+
+<Layout title={title} description={description}>
+  <SchemaMarkup
+    slot="head"
+    pageUrl={Astro.url.href}
+    pageTitle={title}
+    pageDescription={description}
+    breadcrumbItems={breadcrumbItems}
+  />
+
+  <Breadcrumb items={breadcrumbItems} />
+
+  <div class="container" style="padding-top: 40px; padding-bottom: 70px;">
+    <div style="margin-top: 10px; margin-bottom: 50px; text-align: center;">
+      <h1 style="font-size: 38px; color: var(--primary); font-family: var(--font-heading); font-weight: 800;">🧮 Prix &amp; Tarifs Fenêtres et Menuiseries (69)</h1>
+      <p style="color: var(--text-muted); font-size: 17px; max-width: 700px; margin: 15px auto 0; line-height: 1.6;">
+        Combien coûte le remplacement d'une fenêtre simple ou double vitrage dans le Rhône en 2026 ? Retrouvez nos estimations transparentes selon les matériaux et dimensions.
+      </p>
+    </div>
+
+    <!-- Pricing Grid -->
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 24px; margin-bottom: 50px;">
+      
+      <!-- Option 1: PVC -->
+      <div style="background: var(--card-bg); border: 1.5px solid var(--border-color); border-radius: var(--radius-md); padding: 35px 25px; display: flex; flex-direction: column; box-shadow: var(--shadow-sm); transition: var(--transition);">
+        <span style="font-size: 12px; font-weight: 700; color: var(--text-muted); text-transform: uppercase;">Économique &amp; Isolant</span>
+        <h2 style="font-size: 22px; color: var(--primary); margin: 5px 0 15px 0; font-family: var(--font-heading); font-weight: 700;">Fenêtre PVC Double Vitrage</h2>
+        <div style="font-family: var(--font-heading); font-size: 28px; font-weight: 800; color: var(--primary); margin-bottom: 20px; border-bottom: 2px solid var(--primary-light); padding-bottom: 15px;">
+          500 € – 950 € <span style="display: block; font-size: 11px; color: var(--text-muted); font-family: var(--font-body); font-weight: normal; margin-top: 2px;">TTC posé (Standard 115x120cm)</span>
+        </div>
+        <p style="font-size: 14px; color: var(--text-muted); line-height: 1.5; margin-bottom: 20px; flex-grow: 1;">
+          Le meilleur rapport qualité/prix thermique. Sans entretien, il résiste parfaitement aux hivers rigoureux et aux fortes chaleurs estivales du Rhône.
+        </p>
+        <ul style="list-style: none; padding: 0; margin: 0 0 25px; display: flex; flex-direction: column; gap: 8px; font-size: 13.5px;">
+          <li><span style="color: var(--secondary); font-weight: bold;">✓</span> Isolation maximale : Uw jusqu'à 1.1</li>
+          <li><span style="color: var(--secondary); font-weight: bold;">✓</span> Double vitrage gaz Argon 4/16/4</li>
+          <li><span style="color: var(--secondary); font-weight: bold;">✓</span> 100% recyclable, aucun entretien nécessaire</li>
+          <li><span style="color: var(--secondary); font-weight: bold;">✓</span> TVA réduite à 5,5% applicable</li>
+        </ul>
+        <a href="/devis/" class="contact-btn" style="text-align: center;">Estimer mes travaux</a>
+      </div>
+
+      <!-- Option 2: Alu -->
+      <div style="background: var(--card-bg); border: 2.5px solid var(--accent); border-radius: var(--radius-md); padding: 35px 25px; display: flex; flex-direction: column; box-shadow: var(--shadow-md); position: relative; transition: var(--transition);">
+        <div style="position: absolute; top: 15px; right: 15px; background: var(--accent); color: white; font-size: 10px; font-weight: 700; padding: 4px 8px; border-radius: 4px; text-transform: uppercase;">Design Fin</div>
+        <span style="font-size: 12px; font-weight: 700; color: var(--accent); text-transform: uppercase;">Moderne &amp; Rigide</span>
+        <h2 style="font-size: 22px; color: var(--primary); margin: 5px 0 15px 0; font-family: var(--font-heading); font-weight: 700;">Fenêtre Aluminium Double Vitrage</h2>
+        <div style="font-family: var(--font-heading); font-size: 28px; font-weight: 800; color: var(--accent); margin-bottom: 20px; border-bottom: 2px solid var(--primary-light); padding-bottom: 15px;">
+          750 € – 1 500 € <span style="display: block; font-size: 11px; color: var(--text-muted); font-family: var(--font-body); font-weight: normal; margin-top: 2px;">TTC posé (Couleurs RAL personnalisables)</span>
+        </div>
+        <p style="font-size: 14px; color: var(--text-muted); line-height: 1.5; margin-bottom: 20px; flex-grow: 1;">
+          Idéal pour les grandes surfaces vitrées, baies coulissantes et designs contemporains. Permet de maximiser la clarté grâce à ses profilés fins.
+        </p>
+        <ul style="list-style: none; padding: 0; margin: 0 0 25px; display: flex; flex-direction: column; gap: 8px; font-size: 13.5px;">
+          <li><span style="color: var(--accent); font-weight: bold;">✓</span> Rupture de pont thermique intégrée</li>
+          <li><span style="color: var(--accent); font-weight: bold;">✓</span> Clair de vitrage optimisé (+20% de lumière)</li>
+          <li><span style="color: var(--accent); font-weight: bold;">✓</span> Résistance au vent de mistral et de vallée</li>
+          <li><span style="color: var(--accent); font-weight: bold;">✓</span> Éligible aux primes CEE &amp; MaPrimeRénov'</li>
+        </ul>
+        <a href="/devis/" class="contact-btn" style="text-align: center; background: var(--accent); border-color: var(--accent);">Choisir l'Aluminium</a>
+      </div>
+
+      <!-- Option 3: Bois / Mixte -->
+      <div style="background: var(--card-bg); border: 1.5px solid var(--border-color); border-radius: var(--radius-md); padding: 35px 25px; display: flex; flex-direction: column; box-shadow: var(--shadow-sm); transition: var(--transition);">
+        <span style="font-size: 12px; font-weight: 700; color: var(--text-muted); text-transform: uppercase;">Tradition &amp; Zone ABF</span>
+        <h2 style="font-size: 22px; color: var(--primary); margin: 5px 0 15px 0; font-family: var(--font-heading); font-weight: 700;">Fenêtre Bois ou Mixte Bois-Alu</h2>
+        <div style="font-family: var(--font-heading); font-size: 28px; font-weight: 800; color: var(--primary); margin-bottom: 20px; border-bottom: 2px solid var(--primary-light); padding-bottom: 15px;">
+          650 € – 1 900 € <span style="display: block; font-size: 11px; color: var(--text-muted); font-family: var(--font-body); font-weight: normal; margin-top: 2px;">TTC posé (Essences nobles chêne/pin/mélèze)</span>
+        </div>
+        <p style="font-size: 14px; color: var(--text-muted); line-height: 1.5; margin-bottom: 20px; flex-grow: 1;">
+          Souvent requis ou vivement conseillé dans les centres historiques (Vieux-Lyon, Presqu'île, Villefranche) ou les communes en pierre dorée soumis à réglementation ABF.
+        </p>
+        <ul style="list-style: none; padding: 0; margin: 0 0 25px; display: flex; flex-direction: column; gap: 8px; font-size: 13.5px;">
+          <li><span style="color: var(--secondary); font-weight: bold;">✓</span> Style patrimonial traditionnel (crémones, petits bois)</li>
+          <li><span style="color: var(--secondary); font-weight: bold;">✓</span> Isolation thermique naturelle exceptionnelle</li>
+          <li><span style="color: var(--secondary); font-weight: bold;">✓</span> Bois certifiés éco-gérés (FSC/PEFC)</li>
+          <li><span style="color: var(--secondary); font-weight: bold;">✓</span> Conforme aux contraintes architecturales ABF</li>
+        </ul>
+        <a href="/devis/" class="contact-btn" style="text-align: center;">Demander un Devis</a>
+      </div>
+    </div>
+
+    <!-- Factor section -->
+    <section style="background-color: var(--card-bg); border: 1.5px solid var(--border-color); border-radius: var(--radius-md); padding: 40px; margin-bottom: 50px;">
+      <h2 style="font-size: 26px; color: var(--primary); font-family: var(--font-heading); font-weight: 800; margin-top: 0; margin-bottom: 20px;">Quels facteurs influencent le prix de vos fenêtres ?</h2>
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px;">
+        <div>
+          <h3 style="font-size: 17px; color: var(--primary); font-weight: bold; margin-top: 0;">1. Le type de vitrage</h3>
+          <p style="font-size: 14px; color: var(--text-muted); line-height: 1.5;">
+            Un double vitrage standard est le plus courant. Si vous optez pour du triple vitrage (fortement conseillé pour les reliefs du Rhône ou en moyenne altitude) ou un vitrage de contrôle solaire (pour rejeter le rayonnement en été lyonnais), comptez un surcoût de 15% à 30%.
+          </p>
+        </div>
+        <div>
+          <h3 style="font-size: 17px; color: var(--primary); font-weight: bold; margin-top: 0;">2. Type de dépose (rénovation ou dépose totale)</h3>
+          <p style="font-size: 14px; color: var(--text-muted); line-height: 1.5;">
+            La pose en rénovation installe la nouvelle fenêtre sur le cadre bois existant, ce qui est rapide et économique. La dépose totale retire intégralement l'ancien dormant pour optimiser le clair de jour et l'isolation, ce qui exige davantage de main-d'œuvre.
+          </p>
+        </div>
+        <div>
+          <h3 style="font-size: 17px; color: var(--primary); font-weight: bold; margin-top: 0;">3. Les contraintes Bâtiments de France (ABF)</h3>
+          <p style="font-size: 14px; color: var(--text-muted); line-height: 1.5;">
+            Si votre logement est situé dans un secteur sauvegardé (Lyon Vieux-Lyon ou Presqu'île, Villefranche historique, etc.), l'Architecte des Bâtiments de France impose des profils spécifiques, augmentant le coût d'achat et la complexité des travaux.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Subsidies calculation section -->
+    <section style="background-color: var(--primary-light); border: 1.5px solid var(--border-color); border-radius: var(--radius-md); padding: 40px; margin-bottom: 50px;">
+      <div style="display: flex; gap: 40px; align-items: center; flex-wrap: wrap;">
+        <div style="flex: 1 1 350px;">
+          <h2 style="font-size: 26px; color: var(--primary); font-family: var(--font-heading); font-weight: 800; margin-top: 0; margin-bottom: 15px;">Aides financières : Quel est votre reste à charge réel ?</h2>
+          <p style="font-size: 14.5px; color: var(--text); line-height: 1.6; margin-bottom: 0;">
+            En cumulant les aides <strong>MaPrimeRénov'</strong>, les certificats d'économie d'énergie (<strong>CEE</strong>), et la TVA à taux réduit de <strong>5,5%</strong>, le reste à charge sur vos fenêtres est grandement réduit. Pour les foyers modestes, les subventions peuvent couvrir jusqu'à 40% du montant des travaux de rénovation énergétique dans le Rhône.
+          </p>
+        </div>
+        <div style="flex: 1 1 300px; background: white; border: 1px solid var(--border-color); border-radius: var(--radius-sm); padding: 25px; box-shadow: var(--shadow-sm);">
+          <h3 style="font-size: 16px; font-weight: bold; margin-top: 0; color: var(--primary); margin-bottom: 15px;">Simulation : Rénovation de 4 fenêtres PVC</h3>
+          <div style="display: flex; flex-direction: column; gap: 8px; font-size: 14px;">
+            <div style="display: flex; justify-content: space-between;"><span>Fourniture et pose TTC :</span><strong>3 400 €</strong></div>
+            <div style="display: flex; justify-content: space-between; color: var(--secondary);"><span>MaPrimeRénov' (Modeste) :</span><strong>-320 €</strong></div>
+            <div style="display: flex; justify-content: space-between; color: var(--secondary);"><span>Prime CEE (Isolation) :</span><strong>-160 €</strong></div>
+            <div style="display: flex; justify-content: space-between; border-bottom: 1.5px solid var(--primary-light); padding-bottom: 8px;"><span>TVA 5,5% appliquée :</span><strong>Économie de 490€</strong></div>
+            <div style="display: flex; justify-content: space-between; font-size: 16px; font-weight: bold; color: var(--primary); padding-top: 8px;"><span>Reste à charge estimé :</span><span>2 920 €</span></div>
+          </div>
+          <a href="/devis/" class="contact-btn" style="display: block; margin-top: 20px; text-align: center; color: white; background: var(--secondary);">📋 Comparer les devis gratuits</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Bottom links -->
+    <div style="text-align: center;">
+      <p style="color: var(--text-muted); font-size: 15px;">
+        Pour plus d'informations sur les critères techniques ou les subventions : <a href="/aides-renovation-fenetre/" style="color: var(--secondary); font-weight: bold;">Consultez les aides financières</a> ou <a href="/comparatif-materiaux/" style="color: var(--secondary); font-weight: bold;">lisez notre comparatif matériaux &rarr;</a>
+      </p>
+    </div>
+  </div>
+</Layout>

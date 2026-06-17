@@ -1,0 +1,136 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Breadcrumb from '../components/Breadcrumb.astro';
+import SchemaMarkup from '../components/SchemaMarkup.astro';
+import config from '../data/config.json';
+
+const title = `Aides Financières Fenêtre 2026 Rhône (69) — MaPrimeRénov' & CEE`;
+const description = `Le guide complet des subventions pour le changement de fenêtres dans le Rhône : MaPrimeRénov' 2026, primes CEE, Éco-PTZ et aides locales lyonnaises.`;
+
+const breadcrumbItems = [
+  { label: "Accueil", href: "/" },
+  { label: "Aides Financières Rénovation" }
+];
+---
+
+<Layout title={title} description={description}>
+  <SchemaMarkup
+    slot="head"
+    pageUrl={Astro.url.href}
+    pageTitle={title}
+    pageDescription={description}
+    breadcrumbItems={breadcrumbItems}
+  />
+
+  <Breadcrumb items={breadcrumbItems} />
+
+  <section class="static-page-section" style="background-color: var(--bg);">
+    <div class="container">
+      <div class="two-column-layout">
+        
+        <!-- Main Content -->
+        <article class="static-main-content" style="background: var(--card-bg); padding: 40px; border-radius: var(--radius-md); border: 1.5px solid var(--border-color); box-shadow: var(--shadow-sm);">
+          <h1>💰 Aides Financières Remplacement Fenêtres (Rhône — 2026)</h1>
+          <p>
+            Changer ses fenêtres simple vitrage pour du double ou triple vitrage performant est une action phare pour réduire les pertes thermiques. En 2026, l'État français et les collectivités locales du Rhône proposent plusieurs dispositifs pour réduire significativement le reste à charge de vos travaux.
+          </p>
+
+          <h2>1. MaPrimeRénov' Parcours Geste par Geste (ANAH)</h2>
+          <p>
+            Gérée par l'Agence Nationale de l'Habitat, MaPrimeRénov' attribue une prime forfaitaire par fenêtre remplacée, à condition de faire appel à un artisan certifié RGE (Reconnu Garant de l'Environnement). Le montant dépend de la catégorie de revenus de votre foyer :
+          </p>
+          <div class="table-scroll-wrapper">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Catégorie de Revenus</th>
+                  <th>Profil Couleur</th>
+                  <th>Aide par fenêtre posée</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="font-weight: 600;">Revenus Très Modestes</td>
+                  <td style="color: #ef4444; font-weight: 700;">Bleu</td>
+                  <td class="price">100 € / équipement</td>
+                </tr>
+                <tr>
+                  <td style="font-weight: 600;">Revenus Modestes</td>
+                  <td style="color: #f97316; font-weight: 700;">Jaune</td>
+                  <td class="price">80 € / équipement</td>
+                </tr>
+                <tr>
+                  <td style="font-weight: 600;">Revenus Intermédiaires</td>
+                  <td style="color: #3b82f6; font-weight: 700;">Violet</td>
+                  <td class="price">40 € / équipement</td>
+                </tr>
+                <tr>
+                  <td style="font-weight: 600;">Revenus Supérieurs</td>
+                  <td style="color: #22c55e; font-weight: 700;">Rose</td>
+                  <td class="price">0 € (uniquement CEE)</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <p style="font-size: 13.5px; color: var(--text-muted); margin-top: 5px;">
+            * Note : Le Uw de la fenêtre installée doit être ≤ 1,3 W/m².K et le facteur solaire Sw ≥ 0,3.
+          </p>
+
+          <h2>2. Les Certificats d'Économies d'Énergie (CEE)</h2>
+          <p>
+            Versée par les fournisseurs d'énergie (les "obligés"), cette prime s'applique à tous les ménages du Rhône, sans condition de ressources. Pour le remplacement de fenêtres double vitrage ou triple vitrage, elle oscille généralement entre **40 € et 50 € par menuiserie** selon les prestataires. Elle est cumulable avec MaPrimeRénov'.
+          </p>
+
+          <h2>3. L'Éco-Prêt à Taux Zéro (Éco-PTZ)</h2>
+          <p>
+            Reconduit jusqu'au 31 décembre 2026, l'Éco-PTZ permet d'obtenir un crédit sans aucun intérêt pour financer vos travaux d'isolation. Pour une action simple de remplacement de fenêtres, le prêt peut s'élever jusqu'à **15 000 €**. S'il est associé à d'autres gestes (par exemple isolation de toiture ou changement de chaudière), il peut atteindre **50 000 €** remboursables sur 15 ans.
+          </p>
+
+          <h2>4. La TVA à taux réduit de 5,5%</h2>
+          <p>
+            Au lieu des 20% habituels, une TVA de **5,5%** s'applique directement sur la facture de votre artisan menuisier RGE (fourniture du matériel et main-d'œuvre comprises) si votre logement à Lyon ou dans le Rhône a plus de 2 ans d'ancienneté. Aucune démarche n'est requise de votre part : la réduction est appliquée sur le devis.
+          </p>
+
+          <h2>5. Les aides territoriales de la Métropole de Lyon</h2>
+          <p>
+            Pour les habitants du Grand Lyon (Mions, Vénissieux, Caluire, Villeurbanne, etc.), le dispositif **Éco-Rénov** octroie des subventions complémentaires en cas de rénovation globale permettant de réaliser des gains énergétiques supérieurs à 35%. Ces dispositifs locaux sont coordonnés par l'ALEC de la Métropole de Lyon.
+          </p>
+          
+          <div style="background-color: var(--primary-light); padding: 25px; border-radius: var(--radius-md); border-left: 5px solid var(--secondary); margin: 30px 0;">
+            <h3 style="margin-top: 0; color: var(--primary);">📝 Comment monter votre dossier de subventions ?</h3>
+            <ol style="margin-left: 20px; font-size: 14.5px; display: flex; flex-direction: column; gap: 8px; margin-top: 10px;">
+              <li>Faire réaliser une visite technique préalable et obtenir un devis non signé d'un artisan **certifié RGE**.</li>
+              <li>Créer un compte et déposer votre demande sur le site officiel France Rénov' avant tout engagement de travaux.</li>
+              <li>Attendre la validation écrite de l'ANAH avec l'attribution officielle de la subvention.</li>
+              <li>Faire poser vos menuiseries par votre artisan RGE.</li>
+              <li>Envoyer la facture finale et le PV de réception de chantier pour recevoir vos fonds sous 4 à 8 semaines.</li>
+            </ol>
+          </div>
+
+        </article>
+
+        <!-- Sidebar -->
+        <aside class="static-sidebar">
+          
+          <!-- CTA Widget -->
+          <div class="sidebar-widget bg-rose-gradient">
+            <h3>Calculateur d'Aides 2026</h3>
+            <p>Découvrez instantanément à quelles aides votre foyer est éligible dans le Rhône (69) et comparez gratuitement jusqu'à 3 offres locales RGE.</p>
+            <a href="/devis/" class="sidebar-cta-gold">Simuler mes subventions &rarr;</a>
+          </div>
+
+          <!-- Quick links -->
+          <div class="sidebar-widget">
+            <h3>📂 Dossiers Conseils</h3>
+            <ul style="list-style: none; padding: 0; display: flex; flex-direction: column; gap: 10px; font-size: 13.5px;">
+              <li><a href="/comparatif-materiaux/" style="font-weight: 700; color: var(--secondary);">🛠️ Comparateur PVC, Alu, Bois</a></li>
+              <li><a href="/tarifs/" style="font-weight: 700; color: var(--secondary);">🧮 Grille tarifaire détaillée 2026</a></li>
+              <li><a href="/communes/" style="font-weight: 700; color: var(--secondary);">📍 Villes du Rhône desservies</a></li>
+            </ul>
+          </div>
+
+        </aside>
+      </div>
+    </div>
+  </section>
+</Layout>

@@ -1,0 +1,149 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Breadcrumb from '../components/Breadcrumb.astro';
+import SchemaMarkup from '../components/SchemaMarkup.astro';
+import config from '../data/config.json';
+
+const title = `PVC vs Alu vs Bois : Quel Matériau pour vos Fenêtres dans le Rhône (69) ?`;
+const description = `Comparez les différents matériaux de fenêtres (PVC, aluminium, bois, mixte bois-alu) : isolation thermique Uw, durabilité, prix de pose et conformité ABF.`;
+
+const breadcrumbItems = [
+  { label: "Accueil", href: "/" },
+  { label: "Comparatif Matériaux" }
+];
+---
+
+<Layout title={title} description={description}>
+  <SchemaMarkup
+    slot="head"
+    pageUrl={Astro.url.href}
+    pageTitle={title}
+    pageDescription={description}
+    breadcrumbItems={breadcrumbItems}
+  />
+
+  <Breadcrumb items={breadcrumbItems} />
+
+  <section class="static-page-section" style="background-color: var(--bg);">
+    <div class="container">
+      <div class="two-column-layout">
+        
+        <!-- Main Content -->
+        <article class="static-main-content" style="background: var(--card-bg); padding: 40px; border-radius: var(--radius-md); border: 1.5px solid var(--border-color); box-shadow: var(--shadow-sm);">
+          <h1>🛠️ Comparatif Matériaux : PVC vs Aluminium vs Bois vs Mixte</h1>
+          <p>
+            Le choix du matériau est l'étape centrale de votre projet de changement de fenêtres dans le Rhône. Ce choix influe non seulement sur les performances thermiques de votre logement, mais également sur l'esthétique générale, le coût des travaux et le respect des réglementations d'urbanisme locales (ABF).
+          </p>
+
+          <h2>1. Le PVC : Le Champion du Rapport Qualité/Prix</h2>
+          <p>
+            Le PVC est le matériau le plus couramment posé en rénovation en France. Constitué de profilés multi-chambres étanches, il offre des performances d'isolation thermique Uw inégalables pour un budget très contenu.
+          </p>
+          <ul>
+            <li><strong>Avantages :</strong> Excellente isolation naturelle (Uw jusqu'à 1,1 W/m².K), aucun entretien requis, imputrescible, prix imbattable.</li>
+            <li><strong>Inconvénients :</strong> Profilés légèrement plus épais que l'aluminium (perte mineure de luminosité), moins adapté aux très grandes baies vitrées.</li>
+            <li><strong>Pour qui ?</strong> Idéal pour les maisons individuelles hors zone ABF et les appartements en copropriété recherchant un amortissement rapide.</li>
+          </ul>
+
+          <h2>2. L'Aluminium : Design, Finesse et Luminosité</h2>
+          <p>
+            L'aluminium est plébiscité pour son esthétique résolument moderne. Sa grande rigidité mécanique permet de fabriquer des montants ultra-fins, ce qui maximise le "clair de vitrage" (la surface de verre qui laisse entrer la lumière naturelle).
+          </p>
+          <ul>
+            <li><strong>Avantages :</strong> Finesse esthétique incomparable, idéal pour les baies coulissantes, grande variété de teintes RAL, extrêmement durable.</li>
+            <li><strong>Inconvénients :</strong> Un peu moins isolant thermiquement que le PVC (nécessite une rupture de pont thermique de qualité), tarif plus élevé.</li>
+            <li><strong>Pour qui ?</strong> Recommandé pour les baies vitrées de salons, les extensions contemporaines et les rénovations haut de gamme.</li>
+          </ul>
+
+          <h2>3. Le Bois : Authenticité provençale et Charme Haussmannien</h2>
+          <p>
+            Le bois reste une référence incontournable de noblesse et d'élégance. C'est un isolant thermique naturel d'exception qui apporte un cachet chaleureux.
+          </p>
+          <ul>
+            <li><strong>Avantages :</strong> Matériau noble et chaleureux, isolation naturelle de premier plan, recyclable, requis en secteur historique protégé (ABF).</li>
+            <li><strong>Inconvénients :</strong> Exige un entretien périodique (lasure ou peinture tous les 5 à 7 ans), sensible à l'humidité prolongée s'il est négligé, coût élevé.</li>
+            <li><strong>Pour qui ?</strong> Obligatoire pour les copropriétés lyonnaises classées, les immeubles haussmanniens et les mas/villas traditionnels en pierres dorées.</li>
+          </ul>
+
+          <h2>4. Le Mixte Bois-Alu : Le Haut de Gamme sans concessions</h2>
+          <p>
+            Cette technologie assemble deux matériaux complémentaires. L'intérieur de la fenêtre est en bois pour offrir une atmosphère chaleureuse, tandis que le capotage extérieur est en aluminium pour résister sans entretien aux intempéries.
+          </p>
+          <ul>
+            <li><strong>Avantages :</strong> Performances thermiques exceptionnelles, aucun entretien extérieur, confort esthétique du bois à l'intérieur.</li>
+            <li><strong>Inconvénients :</strong> Le matériau le plus onéreux du marché.</li>
+            <li><strong>Pour qui ?</strong> Propriétaires de villas neuves passives ou de rénovations d'exception visant la performance absolue.</li>
+          </ul>
+
+          <h2 style="margin-top: 40px;">📊 Tableau Comparatif Synthétique</h2>
+          <div class="table-scroll-wrapper">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Matériau</th>
+                  <th>Isolation Uw</th>
+                  <th>Durabilité</th>
+                  <th>Entretien</th>
+                  <th>Prix de pose moyen</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="font-weight: 700;">PVC</td>
+                  <td style="color: #22c55e; font-weight: 700;">⭐⭐⭐⭐⭐ (Excellente)</td>
+                  <td style="font-weight: 600;">⭐⭐⭐⭐</td>
+                  <td>Aucun (Eau + savon)</td>
+                  <td class="price">500 € – 950 €</td>
+                </tr>
+                <tr>
+                  <td style="font-weight: 700;">Aluminium</td>
+                  <td style="color: #f97316; font-weight: 700;">⭐⭐⭐ (Correcte)</td>
+                  <td style="font-weight: 600;">⭐⭐⭐⭐⭐</td>
+                  <td>Aucun (Eau)</td>
+                  <td class="price">750 € – 1 500 €</td>
+                </tr>
+                <tr>
+                  <td style="font-weight: 700;">Bois</td>
+                  <td style="color: #22c55e; font-weight: 700;">⭐⭐⭐⭐⭐ (Excellente)</td>
+                  <td style="font-weight: 600;">⭐⭐⭐⭐</td>
+                  <td style="color: #ef4444; font-weight: 700;">Lasure tous les 5-7 ans</td>
+                  <td class="price">650 € – 1 300 €</td>
+                </tr>
+                <tr>
+                  <td style="font-weight: 700;">Mixte Bois-Alu</td>
+                  <td style="color: #22c55e; font-weight: 700;">⭐⭐⭐⭐⭐ (Exceptionnelle)</td>
+                  <td style="font-weight: 600;">⭐⭐⭐⭐⭐</td>
+                  <td>Aucun</td>
+                  <td class="price">950 € – 1 900 €</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+        </article>
+
+        <!-- Sidebar -->
+        <aside class="static-sidebar">
+          
+          <!-- CTA Widget -->
+          <div class="sidebar-widget bg-rose-gradient">
+            <h3>Devis &amp; Conseils RGE</h3>
+            <p>Quel que soit le matériau choisi, profitez du réseau d'artisans RGE du Rhône pour simuler vos aides 2026 et recevoir des devis sur mesure.</p>
+            <a href="/devis/" class="sidebar-cta-gold">Comparer les prix &rarr;</a>
+          </div>
+
+          <!-- Quick links -->
+          <div class="sidebar-widget">
+            <h3>📂 Liens Pratiques</h3>
+            <ul style="list-style: none; padding: 0; display: flex; flex-direction: column; gap: 10px; font-size: 13.5px;">
+              <li><a href="/tarifs/" style="font-weight: 700; color: var(--secondary);">🧮 Prix moyen par matériau</a></li>
+              <li><a href="/aides-renovation-fenetre/" style="font-weight: 700; color: var(--secondary);">💰 Subventions MaPrimeRénov'</a></li>
+              <li><a href="/communes/" style="font-weight: 700; color: var(--secondary);">📍 Villes rhodanniennes desservies</a></li>
+            </ul>
+          </div>
+
+        </aside>
+      </div>
+    </div>
+  </section>
+</Layout>

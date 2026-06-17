@@ -1,0 +1,78 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Breadcrumb from '../components/Breadcrumb.astro';
+import config from '../data/config.json';
+
+const title = `Politique de Confidentialité | ${config.brandName}`;
+const description = `Consultez la politique de confidentialité et de protection des données (RGPD) du site ${config.domain}.`;
+
+const breadcrumbItems = [
+  { label: "Accueil", href: "/" },
+  { label: "Politique de Confidentialité" }
+];
+---
+
+<Layout title={title} description={description} robots="noindex, nofollow">
+  <Breadcrumb items={breadcrumbItems} />
+
+  <div class="container" style="max-width: 800px; padding-top: 40px; padding-bottom: 70px;">
+    <div style="background-color: var(--card-bg); border: 1.5px solid var(--border-color); border-radius: var(--radius-md); padding: 40px 30px; box-shadow: var(--shadow-sm);">
+      <h1 style="font-size: 30px; color: var(--primary); font-family: var(--font-heading); font-weight: 800; margin-top: 0; margin-bottom: 25px;">Politique de Confidentialité (RGPD)</h1>
+      
+      <div style="font-size: 14.5px; color: var(--text); line-height: 1.6; display: flex; flex-direction: column; gap: 20px;">
+        <p>
+          La protection de vos données personnelles est au cœur de nos engagements. Cette politique de confidentialité détaille la manière dont vos données sont collectées, traitées et sécurisées sur le site <strong>{config.domain}</strong>.
+        </p>
+
+        <div>
+          <h2 style="font-size: 18px; color: var(--primary); font-weight: bold; margin-top: 0; margin-bottom: 8px;">1. Responsable du traitement des données</h2>
+          <p style="margin: 0;">
+            Les données personnelles recueillies sur ce site sont collectées et traitées sous la responsabilité de l'éditeur du site <strong>{config.domain}</strong>, conformément au Règlement Général sur la Protection des Données (RGPD) et à la loi Informatique et Libertés.
+          </p>
+        </div>
+
+        <div>
+          <h2 style="font-size: 18px; color: var(--primary); font-weight: bold; margin-top: 0; margin-bottom: 8px;">2. Données collectées</h2>
+          <p style="margin: 0;">
+            Lorsque vous soumettez une demande d'estimation ou de devis via nos formulaires, nous collectons les informations suivantes :
+          </p>
+          <ul style="margin: 10px 0 0 20px; display: flex; flex-direction: column; gap: 4px;">
+            <li>Prénom et Nom</li>
+            <li>Adresse email</li>
+            <li>Numéro de téléphone (portable et/ou fixe)</li>
+            <li>Adresse postale complète du chantier (pour étude géographique locale)</li>
+            <li>Caractéristiques du projet de menuiserie (matériau, nombre d'ouvertures, statut)</li>
+          </ul>
+        </div>
+
+        <div>
+          <h2 style="font-size: 18px; color: var(--primary); font-weight: bold; margin-top: 0; margin-bottom: 8px;">3. Finalités du traitement</h2>
+          <p style="margin: 0;">
+            Vos données de contact et de projet sont collectées pour la seule finalité suivante : la transmission de votre demande de devis à des menuisiers ou plateformes partenaires qualifiés RGE du 69 afin de vous fournir des devis comparatifs gratuits. Vos données ne sont en aucun cas revendues à d'autres fins commerciales.
+          </p>
+        </div>
+
+        <div>
+          <h2 style="font-size: 18px; color: var(--primary); font-weight: bold; margin-top: 0; margin-bottom: 8px;">4. Durée de conservation</h2>
+          <p style="margin: 0;">
+            Vos données personnelles sont conservées en base de données sécurisée pour une durée n'excédant pas 3 ans à compter du dernier contact avec l'utilisateur, ou jusqu'à demande expresse de suppression.
+          </p>
+        </div>
+
+        <div>
+          <h2 style="font-size: 18px; color: var(--primary); font-weight: bold; margin-top: 0; margin-bottom: 8px;">5. Vos droits (Informatique et Libertés / RGPD)</h2>
+          <p style="margin: 0;">
+            Conformément à la réglementation européenne, vous disposez d'un droit d'accès, de rectification, de portabilité, d'opposition et de suppression de vos données personnelles. Vous pouvez exercer ces droits à tout moment en contactant le responsable de traitement ou en formulant une demande par email.
+          </p>
+        </div>
+
+        <div>
+          <h2 style="font-size: 18px; color: var(--primary); font-weight: bold; margin-top: 0; margin-bottom: 8px;">6. Cookies</h2>
+          <p style="margin: 0;">
+            Notre site utilise des cookies de session techniques strictement nécessaires au bon fonctionnement du formulaire de devis multi-étapes. Nous ne déployons aucun cookie publicitaire de tiers intrusif.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</Layout>

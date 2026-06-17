@@ -1,0 +1,171 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Breadcrumb from '../components/Breadcrumb.astro';
+import SchemaMarkup from '../components/SchemaMarkup.astro';
+import config from '../data/config.json';
+import communes from '../data/communes.json';
+
+const title = `Artisans Menuisiers RGE Rhône (69) | Toutes les Villes Desservies`;
+const description = `Trouvez votre poseur de fenêtres RGE dans n'importe quelle commune du département du Rhône (69). Liste des ${communes.length} communes.`;
+
+// Sort communes alphabetically
+const sortedCommunes = [...communes].sort((a, b) => a.nom.localeCompare(b.nom));
+
+// Group by first letter
+const groupedCommunes: Record<string, typeof communes> = {};
+sortedCommunes.forEach((c) => {
+  const firstLetter = c.nom.charAt(0).toUpperCase();
+  if (!groupedCommunes[firstLetter]) {
+    groupedCommunes[firstLetter] = [];
+  }
+  groupedCommunes[firstLetter].push(c);
+});
+
+const alphabet = Object.keys(groupedCommunes).sort();
+
+const breadcrumbItems = [
+  { label: "Accueil", href: "/" },
+  { label: "Villes (69)" }
+];
+---
+
+<Layout title={title} description={description}>
+  <SchemaMarkup
+    slot="head"
+    pageUrl={Astro.url.href}
+    pageTitle={title}
+    pageDescription={description}
+    breadcrumbItems={breadcrumbItems}
+  />
+
+  <Breadcrumb items={breadcrumbItems} />
+
+  <div class="container" style="padding-top: 40px; padding-bottom: 70px;">
+    <div style="margin-top: 10px; margin-bottom: 40px; text-align: center;">
+      <h1 style="font-size: 36px; color: var(--primary); font-family: var(--font-heading); font-weight: 800;">📍 Menuisiers RGE dans le Rhône (69)</h1>
+      <p style="color: var(--text-muted); font-size: 16px; max-width: 700px; margin: 12px auto 0; line-height: 1.5;">
+        Sélectionnez votre commune pour trouver un installateur de fenêtres RGE local, estimer vos aides MaPrimeRénov' et comparer les devis gratuits.
+      </p>
+
+      <!-- Live Search Box -->
+      <div style="max-width: 500px; margin: 30px auto 0; position: relative;">
+        <input 
+          type="text" 
+          id="city-search" 
+          placeholder="Rechercher une ville dans le 69 (ex: Lyon, Villeurbanne, Villefranche, Tarare...)" 
+          style="width: 100%; padding: 14px 20px; border-radius: 50px; border: 2px solid var(--border-color); font-family: var(--font-body); font-size: 15px; outline: none; background-color: var(--card-bg); color: var(--text); box-shadow: var(--shadow-sm); transition: var(--transition);"
+        />
+        <span style="position: absolute; right: 20px; top: 14px; font-size: 18px; color: var(--text-muted);">🔍</span>
+      </div>
+    </div>
+
+    <!-- Alphabet Quick Links -->
+    <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin-bottom: 40px;">
+      {alphabet.map((letter) => (
+        <a 
+          href={`#letter-${letter}`} 
+          style="width: 36px; height: 36px; display: inline-flex; align-items: center; justify-content: center; border-radius: 50%; background-color: var(--primary-light); border: 1px solid var(--border-color); color: var(--primary); font-weight: bold; text-decoration: none; font-size: 14px; transition: var(--transition);"
+        >
+          {letter}
+        </a>
+      ))}
+    </div>
+
+    <!-- Communes List grouped by letter -->
+    <div id="communes-list-container" style="display: flex; flex-direction: column; gap: 40px;">
+      {alphabet.map((letter) => (
+        <section id={`letter-${letter}`} class="letter-group-section" style="background: var(--card-bg); border: 1.5px solid var(--border-color); border-radius: var(--radius-md); padding: 30px; box-shadow: var(--shadow-sm);">
+          <h2 style="font-size: 24px; color: var(--primary); font-family: var(--font-heading); font-weight: 800; border-bottom: 2px solid var(--primary-light); padding-bottom: 8px; margin: 0 0 20px 0;">
+            {letter}
+          </h2>
+          <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px;">
+            {groupedCommunes[letter].map((c) => (
+              <div class="city-card" data-name={c.nom.toLowerCase()} style="background: var(--bg); border: 1px solid var(--border-color); border-radius: var(--radius-sm); padding: 18px; transition: var(--transition);">
+                <a href={`/remplacement-fenetre-${c.slug}/`} style="font-weight: 700; font-size: 15px; display: flex; justify-content: space-between; align-items: center; color: var(--primary); margin-bottom: 10px; text-decoration: none;">
+                  <span>{c.nom} <span style="font-size: 11px; font-weight: normal; color: var(--text-muted);">({c.codePostal})</span></span>
+                  <span style="color: var(--secondary);">&rarr;</span>
+                </a>
+                <div style="display: flex; gap: 8px; font-size: 11px; flex-wrap: wrap;">
+                  <a href={`/fenetre-alu-${c.slug}/`} style="color: var(--text-muted); border: 1px solid var(--border-color); padding: 3px 8px; border-radius: 4px; transition: var(--transition); text-decoration: none;" title={`Fenêtre Aluminium ${c.nom}`}>📐 Fenêtre Alu</a>
+                  <a href={`/artisan-menuisier-${c.slug}/`} style="color: var(--text-muted); border: 1px solid var(--border-color); padding: 3px 8px; border-radius: 4px; transition: var(--transition); text-decoration: none;" title={`Menuisier RGE ${c.nom}`}>🛡️ Artisan RGE</a>
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+      ))}
+    </div>
+
+    <!-- Empty search result message -->
+    <div id="no-search-results" style="display: none; text-align: center; padding: 50px 20px;">
+      <span style="font-size: 48px;">📍</span>
+      <h3 style="font-size: 20px; color: var(--primary); margin-top: 15px;">Aucune commune trouvée</h3>
+      <p style="color: var(--text-muted); font-size: 14.5px; margin-top: 5px;">Essayez de modifier votre recherche.</p>
+    </div>
+  </div>
+</Layout>
+
+<script>
+  const searchInput = document.getElementById('city-search') as HTMLInputElement | null;
+  const letterSections = document.querySelectorAll('.letter-group-section');
+  const noResultsDiv = document.getElementById('no-search-results');
+
+  if (searchInput) {
+    searchInput.addEventListener('input', (e) => {
+      const query = (e.target as HTMLInputElement).value.toLowerCase().trim();
+      let totalVisible = 0;
+
+      letterSections.forEach((section) => {
+        const cards = section.querySelectorAll('.city-card');
+        let sectionVisibleCards = 0;
+
+        cards.forEach((card) => {
+          const cityName = card.getAttribute('data-name') || '';
+          if (cityName.includes(query)) {
+            (card as HTMLElement).style.display = 'block';
+            sectionVisibleCards++;
+            totalVisible++;
+          } else {
+            (card as HTMLElement).style.display = 'none';
+          }
+        });
+
+        // Hide letter section if no cards match
+        if (sectionVisibleCards > 0) {
+          (section as HTMLElement).style.display = 'block';
+        } else {
+          (section as HTMLElement).style.display = 'none';
+        }
+      });
+
+      if (noResultsDiv) {
+        if (totalVisible === 0) {
+          noResultsDiv.style.display = 'block';
+        } else {
+          noResultsDiv.style.display = 'none';
+        }
+      }
+    });
+
+    // Handle search input styling on focus
+    searchInput.addEventListener('focus', () => {
+      searchInput.style.borderColor = 'var(--secondary)';
+      searchInput.style.boxShadow = '0 0 0 4px rgba(217, 119, 6, 0.15)';
+    });
+    searchInput.addEventListener('blur', () => {
+      searchInput.style.borderColor = '';
+      searchInput.style.boxShadow = '';
+    });
+  }
+</script>
+
+<style>
+  .city-card:hover {
+    border-color: var(--secondary) !important;
+    background-color: var(--primary-light) !important;
+    box-shadow: var(--shadow-sm);
+  }
+  .city-card a:hover {
+    color: var(--secondary) !important;
+  }
+</style>

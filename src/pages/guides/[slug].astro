@@ -1,0 +1,172 @@
+---
+import { getCollection, render } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+import Breadcrumb from '../../components/Breadcrumb.astro';
+import StepsForm from '../../components/StepsForm.astro';
+
+export async function getStaticPaths() {
+  const guides = await getCollection('guides');
+  return guides.map((guide) => ({
+    params: { slug: guide.id },
+    props: { guide }
+  }));
+}
+
+const { guide } = Astro.props;
+const { Content } = await render(guide);
+
+const title = `${guide.data.title} — Fenêtre Rhône`;
+const description = guide.data.description;
+
+const breadcrumbItems = [
+  { label: "Accueil", href: "/" },
+  { label: "Guides", href: "/guides/" },
+  { label: guide.data.title }
+];
+---
+<Layout title={title} description={description}>
+  <Breadcrumb items={breadcrumbItems} />
+
+  <article style="padding: 60px 0; background-color: var(--bg);">
+    <div class="container">
+      <div class="article-layout" style="display: grid; grid-template-columns: 2.3fr 1fr; gap: 40px; align-items: start;">
+        
+        <!-- Main Content -->
+        <div class="article-main" style="background: var(--card-bg); padding: 45px; border-radius: var(--radius-md); border: 1.5px solid var(--border-color); box-shadow: var(--shadow-sm);">
+          <span style="font-family: var(--font-mono); font-size: 12px; color: var(--text-muted); text-transform: uppercase; margin-bottom: 15px; display: block;">
+            🗓️ Publié le {guide.data.pubDate.toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' })} · par {guide.data.author}
+          </span>
+          
+          <h1 style="font-family: var(--font-heading); font-size: 30px; font-weight: 950; color: var(--primary); margin: 0 0 25px; line-height: 1.25; border-bottom: 2px solid var(--border-color); padding-bottom: 20px;">
+            {guide.data.title}
+          </h1>
+
+          <div style="aspect-ratio: 16/9; overflow: hidden; border-radius: var(--radius-sm); border: 1.5px solid var(--border-color); margin-bottom: 35px; background-color: var(--primary-light);">
+            <img src={guide.data.image} alt={guide.data.imageAlt} style="width: 100%; height: 100%; object-fit: cover;" />
+          </div>
+
+          <div class="rich-text-article">
+            <Content />
+          </div>
+        </div>
+
+        <!-- Sidebar -->
+        <aside class="article-sidebar" style="display: flex; flex-direction: column; gap: 30px;">
+          <!-- CTA Form Widget -->
+          <div class="sidebar-widget" style="background: var(--card-bg); border-radius: var(--radius-md); border: 1.5px solid var(--border-color); box-shadow: var(--shadow-sm); overflow: hidden;">
+            <div style="background: var(--primary); padding: 20px 25px; text-align: center; border-bottom: 2px solid var(--border-color);">
+              <h3 style="margin: 0; color: white; font-family: var(--font-heading); font-size: 16px; font-weight: 800;">Estimez vos aides 2026</h3>
+              <p style="margin: 5px 0 0; color: var(--primary-light); font-size: 12.5px;">Artisans RGE - Devis Gratuit</p>
+            </div>
+            <div style="padding: 20px;">
+              <StepsForm initialZip="69000" initialCommune="Lyon" />
+            </div>
+          </div>
+
+          <!-- Quick Navigation Widget -->
+          <div class="sidebar-widget" style="background: var(--card-bg); padding: 25px; border-radius: var(--radius-md); border: 1.5px solid var(--border-color); box-shadow: var(--shadow-sm);">
+            <h3 style="font-family: var(--font-heading); font-size: 16px; font-weight: 700; color: var(--primary); margin-bottom: 15px; border-bottom: 2px solid var(--primary-light); padding-bottom: 8px;">
+              📂 Guides de Rénovation
+            </h3>
+            <ul style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 12px; font-size: 13.5px;">
+              <li><a href="/guides/budget-remplacement-fenetre-lyon-2026/" style="color: var(--text); text-decoration: none; font-weight: 600;">💰 Budget Fenêtres 2026</a></li>
+              <li><a href="/guides/aides-financieres-eco-ptz-maprimerenov/" style="color: var(--text); text-decoration: none; font-weight: 600;">🎁 Aides & Subventions 2026</a></li>
+              <li><a href="/guides/fenetres-haussmannien-lyon-contraintes-abf/" style="color: var(--text); text-decoration: none; font-weight: 600;">🏛️ Immeubles Haussmanniens &amp; ABF</a></li>
+              <li><a href="/guides/isolation-acoustique-fenetre-anti-bruit-lyon/" style="color: var(--text); text-decoration: none; font-weight: 600;">🔊 Isolation Acoustique Anti-Bruit</a></li>
+              <li><a href="/guides/pvc-vs-aluminium-quel-materiau-choisir/" style="color: var(--text); text-decoration: none; font-weight: 600;">⚖️ PVC vs Aluminium : Le Duel</a></li>
+              <li><a href="/guides/remplacement-fenetre-copropriete-lyon-regles-aides/" style="color: var(--text); text-decoration: none; font-weight: 600;">🏢 Changement en Copropriété</a></li>
+              <li><a href="/guides/impact-dpe-renovation-fenetres-valeur-immobiliere/" style="color: var(--text); text-decoration: none; font-weight: 600;">📈 Impact DPE & Plus-value</a></li>
+              <li><a href="/guides/fenetres-canicule-estivale-protection-solaire-rhone/" style="color: var(--text); text-decoration: none; font-weight: 600;">☀️ Canicule & Protection Solaire</a></li>
+            </ul>
+          </div>
+        </aside>
+
+      </div>
+    </div>
+  </article>
+</Layout>
+
+<style>
+  @media (max-width: 992px) {
+    .article-layout {
+      grid-template-columns: 1fr !important;
+      gap: 35px !important;
+    }
+  }
+
+  /* Rich text styling for article */
+  .rich-text-article :global(h2) {
+    font-family: var(--font-heading);
+    font-size: 22px;
+    font-weight: 850;
+    color: var(--primary);
+    margin-top: 35px;
+    margin-bottom: 15px;
+    border-bottom: 1.5px solid var(--border-color);
+    padding-bottom: 8px;
+  }
+  
+  .rich-text-article :global(h3) {
+    font-family: var(--font-heading);
+    font-size: 18px;
+    font-weight: 800;
+    color: var(--primary);
+    margin-top: 25px;
+    margin-bottom: 10px;
+  }
+
+  .rich-text-article :global(p) {
+    font-size: 15.5px;
+    line-height: 1.7;
+    color: var(--text);
+    margin-bottom: 20px;
+  }
+
+  .rich-text-article :global(ul), .rich-text-article :global(ol) {
+    margin: 15px 0 25px 20px;
+    font-size: 15px;
+    line-height: 1.65;
+    color: var(--text);
+  }
+
+  .rich-text-article :global(li) {
+    margin-bottom: 10px;
+  }
+
+  .rich-text-article :global(strong) {
+    color: var(--primary);
+  }
+
+  .rich-text-article :global(hr) {
+    border: none;
+    border-top: 2px solid var(--border-color);
+    margin: 40px 0;
+  }
+
+  .rich-text-article :global(table) {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 25px 0;
+    font-size: 14.5px;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-sm);
+    overflow: hidden;
+  }
+
+  .rich-text-article :global(th), .rich-text-article :global(td) {
+    padding: 12px 15px;
+    border: 1px solid var(--border-color);
+  }
+
+  .rich-text-article :global(th) {
+    background-color: var(--primary-light);
+    color: var(--primary);
+    font-family: var(--font-heading);
+    font-weight: 800;
+    text-align: left;
+  }
+
+  .rich-text-article :global(tr:nth-child(even)) {
+    background-color: #fbfbfb;
+  }
+</style>

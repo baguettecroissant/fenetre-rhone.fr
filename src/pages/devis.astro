@@ -1,0 +1,93 @@
+---
+import Layout from '../layouts/Layout.astro';
+import StepsForm from '../components/StepsForm.astro';
+import SchemaMarkup from '../components/SchemaMarkup.astro';
+import config from '../data/config.json';
+import Breadcrumb from '../components/Breadcrumb.astro';
+
+const title = `Demande de Devis Fenêtres RGE | ${config.brandName}`;
+const description = `Calculez vos aides de l'État MaPrimeRénov' 2026 et comparez 3 devis d'artisans menuisiers certifiés RGE dans le Rhône (69).`;
+
+const breadcrumbItems = [
+  { label: "Accueil", href: "/" },
+  { label: "Demande de Devis" }
+];
+---
+
+<Layout title={title} description={description}>
+  <SchemaMarkup
+    slot="head"
+    pageUrl={Astro.url.href}
+    pageTitle={title}
+    pageDescription={description}
+    breadcrumbItems={breadcrumbItems}
+  />
+
+  <Breadcrumb items={breadcrumbItems} />
+
+  <section style="padding: 60px 0 90px; background-color: var(--bg);">
+    <div class="container" style="max-width: 700px;">
+      <div style="text-align: center; margin-bottom: 35px;">
+        <span style="background: var(--primary-light); color: var(--primary); role: note; font-weight: 700; font-size: 12px; padding: 6px 14px; border-radius: 50px; text-transform: uppercase; letter-spacing: 0.5px; display: inline-block; margin-bottom: 15px;">
+          ⏱️ Test d'éligibilité 2 minutes
+        </span>
+        <h1 style="font-family: var(--font-heading); font-size: 32px; font-weight: 800; color: var(--primary); line-height: 1.25; margin-bottom: 12px;">
+          Calculez vos aides Fenêtres 2026
+        </h1>
+        <p style="font-size: 15.5px; color: var(--text-muted); line-height: 1.5; max-width: 580px; margin: 0 auto;">
+          Ce simulateur gratuit estime le crédit d'impôt national, les subventions CEE et les aides MaPrimeRénov' de l'ANAH dans le Rhône pour vos fenêtres.
+        </p>
+      </div>
+
+      <!-- Lead form -->
+      <StepsForm />
+
+      <!-- Reassurance badges below the form -->
+      <div class="badges-row" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-top: 30px; text-align: center;">
+        <div style="background: var(--card-bg); border: 1.5px solid var(--border-color); border-radius: var(--radius-md); padding: 15px; box-shadow: var(--shadow-sm);">
+          <span style="font-size: 20px; display: block; margin-bottom: 6px;">🔒</span>
+          <h4 style="font-size: 12.5px; color: var(--primary); font-weight: 700; margin-bottom: 4px;">Données RGPD</h4>
+          <p style="font-size: 11px; color: var(--text-muted); line-height: 1.4; margin: 0;">Transmission 100% anonymisée et cryptée de votre projet.</p>
+        </div>
+        <div style="background: var(--card-bg); border: 1.5px solid var(--border-color); border-radius: var(--radius-md); padding: 15px; box-shadow: var(--shadow-sm);">
+          <span style="font-size: 20px; display: block; margin-bottom: 6px;">🛡️</span>
+          <h4 style="font-size: 12.5px; color: var(--primary); font-weight: 700; margin-bottom: 4px;">Artisans RGE</h4>
+          <p style="font-size: 11px; color: var(--text-muted); line-height: 1.4; margin: 0;">Professionnels labellisés Reconnu Garant de l'Environnement (69).</p>
+        </div>
+        <div style="background: var(--card-bg); border: 1.5px solid var(--border-color); border-radius: var(--radius-md); padding: 15px; box-shadow: var(--shadow-sm);">
+          <span style="font-size: 20px; display: block; margin-bottom: 6px;">🤝</span>
+          <h4 style="font-size: 12.5px; color: var(--primary); font-weight: 700; margin-bottom: 4px;">Gratuit &amp; Sans Engagement</h4>
+          <p style="font-size: 11px; color: var(--text-muted); line-height: 1.4; margin: 0;">Étude thermique et devis d'installations sans frais cachés.</p>
+        </div>
+      </div>
+
+      <!-- Internal links for SEO maillage -->
+      <div style="margin-top: 35px; padding: 25px; background: var(--primary-light); border: 1.5px solid var(--border-color); border-radius: var(--radius-md); font-size: 13.5px;">
+        <h3 style="font-size: 16px; color: var(--primary); margin-top: 0; margin-bottom: 12px;">📍 Comparer les prix par ville dans le 69</h3>
+        <p style="color: var(--text-muted); margin-bottom: 12px;">Consultez nos pages locales pour un devis personnalisé et des prix ajustés à votre commune :</p>
+        <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+          <a href="/remplacement-fenetre-lyon/" style="color: var(--secondary); font-weight: 600;">Lyon</a> ·
+          <a href="/remplacement-fenetre-villeurbanne/" style="color: var(--secondary); font-weight: 600;">Villeurbanne</a> ·
+          <a href="/remplacement-fenetre-venissieux/" style="color: var(--secondary); font-weight: 600;">Vénissieux</a> ·
+          <a href="/remplacement-fenetre-caluire-et-cuire/" style="color: var(--secondary); font-weight: 600;">Caluire-et-Cuire</a> ·
+          <a href="/remplacement-fenetre-saint-priest/" style="color: var(--secondary); font-weight: 600;">Saint-Priest</a> ·
+          <a href="/remplacement-fenetre-villefranche-sur-saone/" style="color: var(--secondary); font-weight: 600;">Villefranche-sur-Saône</a> ·
+          <a href="/communes/" style="color: var(--accent); font-weight: 700;">Toutes les villes →</a>
+        </div>
+        <div style="margin-top: 12px; display: flex; gap: 15px; flex-wrap: wrap;">
+          <a href="/tarifs/" style="color: var(--primary); font-weight: 600;">🧮 Grille tarifaire 2026</a>
+          <a href="/aides-renovation-fenetre/" style="color: var(--primary); font-weight: 600;">💰 Plafonds MaPrimeRénov'</a>
+          <a href="/comparatif-materiaux/" style="color: var(--primary); font-weight: 600;">🛠️ Comparatif matériaux</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  @media (max-width: 576px) {
+    .badges-row {
+      grid-template-columns: 1fr !important;
+    }
+  }
+</style>

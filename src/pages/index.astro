@@ -1,0 +1,290 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Hero from '../components/Hero.astro';
+import SchemaMarkup from '../components/SchemaMarkup.astro';
+import config from '../data/config.json';
+import communes from '../data/communes.json';
+import { getCollection } from 'astro:content';
+
+const title = `Changement de Fenêtres Rhône (69) | Artisans RGE & Devis Gratuits`;
+const description = `Installation et remplacement de fenêtres (PVC, aluminium, bois, mixte), baies vitrées et volets dans le Rhône (69). Recevez 3 devis gratuits d'artisans RGE locaux.`;
+
+// Top communes for SEO linking (Lyon, Villeurbanne, Vénissieux, Caluire, etc.)
+const popularCommunes = communes.filter(c => c.population > 20000).slice(0, 12);
+
+// Fetch guides (fallback if collection is empty initially)
+let recentGuides = [];
+try {
+  const guides = await getCollection('guides');
+  recentGuides = guides.slice(0, 3);
+} catch (e) {
+  console.log("No guides collection found yet");
+}
+---
+
+<Layout title={title} description={description}>
+  <SchemaMarkup
+    slot="head"
+    pageUrl={Astro.url.href}
+    pageTitle={title}
+    pageDescription={description}
+  />
+
+  <!-- Hero Section with lead form -->
+  <Hero />
+
+  <!-- Intro & Key Values Section -->
+  <section style="padding: 70px 0; background-color: var(--card-bg);">
+    <div class="container">
+      <div style="text-align: center; max-width: 800px; margin: 0 auto 50px;">
+        <h2 style="font-family: var(--font-heading); font-size: 32px; font-weight: 850; color: var(--primary); margin-bottom: 15px;">
+          Pourquoi changer vos fenêtres dans le Rhône (69) ?
+        </h2>
+        <p style="font-size: 16.5px; color: var(--text-muted); line-height: 1.6;">
+          Le climat continental caractérisé par des hivers froids et les canicules estivales intenses (avec l'effet d'îlot de chaleur urbain à Lyon, Villeurbanne et environs) impose des menuiseries performantes. Rénover ses fenêtres permet d'améliorer son DPE, de réduire ses charges thermiques et d'optimiser l'acoustique urbaine.
+        </p>
+      </div>
+
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px;">
+        <div style="background: var(--bg); border: 1.5px solid var(--border-color); border-radius: var(--radius-md); padding: 30px; box-shadow: var(--shadow-sm); transition: var(--transition);">
+          <span style="font-size: 36px; display: block; margin-bottom: 15px;">❄️</span>
+          <h3 style="font-family: var(--font-heading); font-size: 20px; font-weight: 800; color: var(--primary); margin-bottom: 10px;">Isolation Hiver &amp; Été</h3>
+          <p style="font-size: 14.5px; color: var(--text-muted); line-height: 1.5;">
+            Jusqu'à 30% d'économies de chauffage en hiver et une barrière efficace contre la chaleur étouffante à Lyon, Villeurbanne, ou Villefranche.
+          </p>
+        </div>
+
+        <div style="background: var(--bg); border: 1.5px solid var(--border-color); border-radius: var(--radius-md); padding: 30px; box-shadow: var(--shadow-sm); transition: var(--transition);">
+          <span style="font-size: 36px; display: block; margin-bottom: 15px;">🤫</span>
+          <h3 style="font-family: var(--font-heading); font-size: 20px; font-weight: 800; color: var(--primary); margin-bottom: 10px;">Affaiblissement Acoustique (Rw)</h3>
+          <p style="font-size: 14.5px; color: var(--text-muted); line-height: 1.5;">
+            Réduction drastique des bruits de circulation urbaine pour retrouver le calme chez vous, même à proximité de la Part-Dieu ou des grands axes rhodaniens.
+          </p>
+        </div>
+
+        <div style="background: var(--bg); border: 1.5px solid var(--border-color); border-radius: var(--radius-md); padding: 30px; box-shadow: var(--shadow-sm); transition: var(--transition);">
+          <span style="font-size: 36px; display: block; margin-bottom: 15px;">🏛️</span>
+          <h3 style="font-family: var(--font-heading); font-size: 20px; font-weight: 800; color: var(--primary); margin-bottom: 10px;">Conformité ABF &amp; Patrimoine</h3>
+          <p style="font-size: 14.5px; color: var(--text-muted); line-height: 1.5;">
+            Des artisans qualifiés RGE qui maîtrisent les règles de l'haussmannien dans le Vieux-Lyon, la Presqu'île ou les Monts d'Or (coloris et moulures sur mesure).
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Materials Selector Grid -->
+  <section style="padding: 70px 0; background-color: var(--bg); border-top: 1px solid var(--border-color); border-bottom: 1px solid var(--border-color);">
+    <div class="container">
+      <div style="text-align: center; max-width: 800px; margin: 0 auto 50px;">
+        <h2 style="font-family: var(--font-heading); font-size: 32px; font-weight: 850; color: var(--primary); margin-bottom: 15px;">
+          Quel matériau choisir pour vos fenêtres dans le 69 ?
+        </h2>
+        <p style="font-size: 16.5px; color: var(--text-muted); line-height: 1.6;">
+          Le choix du matériau dépend de vos exigences en isolation, de votre budget, et des contraintes d'urbanisme du Grand Lyon ou de votre commune.
+        </p>
+      </div>
+
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 24px;">
+        <!-- PVC -->
+        <div style="background: var(--card-bg); border: 1.5px solid var(--border-color); border-radius: var(--radius-md); padding: 25px; box-shadow: var(--shadow-sm); display: flex; flex-direction: column; justify-content: space-between;">
+          <div>
+            <h3 style="font-family: var(--font-heading); font-size: 20px; font-weight: 800; color: var(--primary); margin-bottom: 12px; display: flex; align-items: center; gap: 8px;">
+              <span>🤍</span> PVC Isolant
+            </h3>
+            <p style="font-size: 14px; color: var(--text-muted); line-height: 1.5; margin-bottom: 15px;">
+              Le meilleur rapport qualité/prix thermique. Sans entretien, très résistant, il offre d'excellents coefficients thermiques Uw pour réduire vos charges de chauffage.
+            </p>
+          </div>
+          <a href="/comparatif-materiaux/" style="font-size: 13.5px; color: var(--secondary); font-weight: 700;">En savoir plus &rarr;</a>
+        </div>
+
+        <!-- ALU -->
+        <div style="background: var(--card-bg); border: 1.5px solid var(--border-color); border-radius: var(--radius-md); padding: 25px; box-shadow: var(--shadow-sm); display: flex; flex-direction: column; justify-content: space-between;">
+          <div>
+            <h3 style="font-family: var(--font-heading); font-size: 20px; font-weight: 800; color: var(--primary); margin-bottom: 12px; display: flex; align-items: center; gap: 8px;">
+              <span>🩶</span> Aluminium
+            </h3>
+            <p style="font-size: 14px; color: var(--text-muted); line-height: 1.5; margin-bottom: 15px;">
+              Le choix moderne et design. Les profilés fins maximisent la clarté et la surface vitrée. Très rigide, il est parfait pour les grandes baies vitrées coulissantes.
+            </p>
+          </div>
+          <a href="/comparatif-materiaux/" style="font-size: 13.5px; color: var(--secondary); font-weight: 700;">En savoir plus &rarr;</a>
+        </div>
+
+        <!-- BOIS -->
+        <div style="background: var(--card-bg); border: 1.5px solid var(--border-color); border-radius: var(--radius-md); padding: 25px; box-shadow: var(--shadow-sm); display: flex; flex-direction: column; justify-content: space-between;">
+          <div>
+            <h3 style="font-family: var(--font-heading); font-size: 20px; font-weight: 800; color: var(--primary); margin-bottom: 12px; display: flex; align-items: center; gap: 8px;">
+              <span>🤎</span> Bois Traditionnel
+            </h3>
+            <p style="font-size: 14px; color: var(--text-muted); line-height: 1.5; margin-bottom: 15px;">
+              Noblesse et charme traditionnel. Recommandé ou exigé par les Bâtiments de France pour les appartements haussmanniens lyonnais ou les maisons en pierres dorées.
+            </p>
+          </div>
+          <a href="/comparatif-materiaux/" style="font-size: 13.5px; color: var(--secondary); font-weight: 700;">En savoir plus &rarr;</a>
+        </div>
+
+        <!-- MIXTE -->
+        <div style="background: var(--card-bg); border: 1.5px solid var(--border-color); border-radius: var(--radius-md); padding: 25px; box-shadow: var(--shadow-sm); display: flex; flex-direction: column; justify-content: space-between;">
+          <div>
+            <h3 style="font-family: var(--font-heading); font-size: 20px; font-weight: 800; color: var(--primary); margin-bottom: 12px; display: flex; align-items: center; gap: 8px;">
+              <span>💙</span> Mixte Bois-Alu
+            </h3>
+            <p style="font-size: 14px; color: var(--text-muted); line-height: 1.5; margin-bottom: 15px;">
+              Le nec plus ultra. Combinaison parfaite de la chaleur du bois à l'intérieur et de la résistance de l'aluminium thermolaqué sans entretien à l'extérieur.
+            </p>
+          </div>
+          <a href="/comparatif-materiaux/" style="font-size: 13.5px; color: var(--secondary); font-weight: 700;">En savoir plus &rarr;</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Pricing Table Section -->
+  <section style="padding: 70px 0; background-color: var(--card-bg);">
+    <div class="container" style="max-width: 900px;">
+      <div style="text-align: center; margin-bottom: 40px;">
+        <h2 style="font-family: var(--font-heading); font-size: 32px; font-weight: 850; color: var(--primary); margin-bottom: 15px;">
+          Tarifs Moyens Changement Fenêtres (Pose incluse) — 2026
+        </h2>
+        <p style="font-size: 16px; color: var(--text-muted); max-width: 700px; margin: 0 auto;">
+          Voici une estimation des grilles de prix pratiquées dans le Rhône pour l'installation de menuiseries neuves double vitrage standard.
+        </p>
+      </div>
+
+      <div class="table-scroll-wrapper" style="border: 1.5px solid var(--border-color); border-radius: var(--radius-md); box-shadow: var(--shadow-sm);">
+        <table class="data-table" style="width: 100%; margin: 0;">
+          <thead>
+            <tr>
+              <th style="padding: 15px 20px;">Type de Menuiserie</th>
+              <th style="padding: 15px 20px;">Descriptif standard</th>
+              <th style="padding: 15px 20px; text-align: right;">Prix moyen posé TTC</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td style="padding: 15px 20px; font-weight: 600;">Fenêtre PVC double vitrage</td>
+              <td style="padding: 15px 20px; color: var(--text-muted);">Standard, oscillo-battant</td>
+              <td style="padding: 15px 20px; text-align: right; font-weight: 700; color: var(--primary); font-family: var(--font-mono);">500 - 950 €</td>
+            </tr>
+            <tr>
+              <td style="padding: 15px 20px; font-weight: 600;">Fenêtre aluminium double vitrage</td>
+              <td style="padding: 15px 20px; color: var(--text-muted);">Profilé fin, rupture pont thermique</td>
+              <td style="padding: 15px 20px; text-align: right; font-weight: 700; color: var(--primary); font-family: var(--font-mono);">750 - 1 500 €</td>
+            </tr>
+            <tr>
+              <td style="padding: 15px 20px; font-weight: 600;">Fenêtre bois double vitrage</td>
+              <td style="padding: 15px 20px; color: var(--text-muted);">Pin, mélèze ou chêne, style haussmannien</td>
+              <td style="padding: 15px 20px; text-align: right; font-weight: 700; color: var(--primary); font-family: var(--font-mono);">650 - 1 300 €</td>
+            </tr>
+            <tr>
+              <td style="padding: 15px 20px; font-weight: 600;">Fenêtre mixte bois-alu</td>
+              <td style="padding: 15px 20px; color: var(--text-muted);">Isolation d'exception, pas d'entretien ext.</td>
+              <td style="padding: 15px 20px; text-align: right; font-weight: 700; color: var(--primary); font-family: var(--font-mono);">950 - 1 900 €</td>
+            </tr>
+            <tr>
+              <td style="padding: 15px 20px; font-weight: 600;">Baie vitrée coulissante alu</td>
+              <td style="padding: 15px 20px; color: var(--text-muted);">Grandes dimensions, 2 vantaux design</td>
+              <td style="padding: 15px 20px; text-align: right; font-weight: 700; color: var(--primary); font-family: var(--font-mono);">1 900 - 3 800 €</td>
+            </tr>
+            <tr>
+              <td style="padding: 15px 20px; font-weight: 600;">Fenêtre de toit (Velux)</td>
+              <td style="padding: 15px 20px; color: var(--text-muted);">Confort thermique, rotation/projection</td>
+              <td style="padding: 15px 20px; text-align: right; font-weight: 700; color: var(--primary); font-family: var(--font-mono);">850 - 1 700 €</td>
+            </tr>
+            <tr>
+              <td style="padding: 15px 20px; font-weight: 600;">Volet roulant électrique alu</td>
+              <td style="padding: 15px 20px; color: var(--text-muted);">Lames isolées, télécommande / domotique</td>
+              <td style="padding: 15px 20px; text-align: right; font-weight: 700; color: var(--primary); font-family: var(--font-mono);">400 - 850 €</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p style="font-size: 12px; color: var(--text-muted); margin-top: 15px; text-align: center;">
+        * Tarifs TTC indicatifs incluant la dépose de l'existant. Sujets à modification selon les finitions ABF.
+      </p>
+      <div style="text-align: center; margin-top: 30px;">
+        <a href="/tarifs/" class="contact-btn" style="text-decoration: none; display: inline-block;">
+          🧮 Consulter la grille tarifaire complète
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Guides & Articles Section -->
+  {recentGuides.length > 0 && (
+    <section style="padding: 70px 0; background-color: var(--bg); border-top: 1px solid var(--border-color); border-bottom: 1px solid var(--border-color);">
+      <div class="container">
+        <div style="text-align: center; max-width: 800px; margin: 0 auto 50px;">
+          <h2 style="font-family: var(--font-heading); font-size: 32px; font-weight: 850; color: var(--primary); margin-bottom: 15px;">
+            Conseils de Menuisiers &amp; Guides Rénovation
+          </h2>
+          <p style="font-size: 16.5px; color: var(--text-muted); line-height: 1.6;">
+            Retrouvez les dossiers de nos experts du 69 pour réussir vos travaux, optimiser votre DPE et obtenir vos primes de transition.
+          </p>
+        </div>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px;">
+          {recentGuides.map((guide) => (
+            <article style="background: var(--card-bg); border: 1.5px solid var(--border-color); border-radius: var(--radius-md); overflow: hidden; box-shadow: var(--shadow-sm); display: flex; flex-direction: column; justify-content: space-between;">
+              <div style="padding: 24px;">
+                <span style="font-size: 12px; font-weight: bold; color: var(--secondary); text-transform: uppercase; letter-spacing: 0.5px;">Dossier Rénovation</span>
+                <h3 style="font-family: var(--font-heading); font-size: 20px; font-weight: 800; color: var(--primary); margin: 8px 0 12px; line-height: 1.3;">
+                  {guide.data.title}
+                </h3>
+                <p style="font-size: 14px; color: var(--text-muted); line-height: 1.5; margin-bottom: 15px;">
+                  {guide.data.description}
+                </p>
+              </div>
+              <div style="padding: 18px 24px; border-top: 1px solid var(--primary-light); background: #fafafa; display: flex; justify-content: space-between; align-items: center;">
+                <span style="font-size: 13px; color: var(--text-muted);">Par {guide.data.author}</span>
+                <a href={`/guides/${guide.id}/`} style="font-weight: 700; font-size: 13.5px; color: var(--accent); text-decoration: none;">Lire l'article &rarr;</a>
+              </div>
+            </article>
+          ))}
+        </div>
+        <div style="text-align: center; margin-top: 40px;">
+          <a href="/guides/" style="font-weight: 700; font-size: 15.5px; color: var(--primary); text-decoration: none;">
+            ⚡ Découvrir tous nos guides (8) &rarr;
+          </a>
+        </div>
+      </div>
+    </section>
+  )}
+
+  <!-- pSEO Communes Link Hub -->
+  <section style="padding: 70px 0; background-color: var(--card-bg);">
+    <div class="container">
+      <div style="text-align: center; max-width: 800px; margin: 0 auto 40px;">
+        <h2 style="font-family: var(--font-heading); font-size: 32px; font-weight: 850; color: var(--primary); margin-bottom: 15px;">
+          📍 Installation de fenêtres dans les principales communes du 69
+        </h2>
+        <p style="font-size: 16.5px; color: var(--text-muted); line-height: 1.6;">
+          Nos menuisiers partenaires RGE desservent l'ensemble de la métropole de Lyon et du département du Rhône. Sélectionnez votre commune pour simuler vos aides locales :
+        </p>
+      </div>
+
+      <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 15px; margin-bottom: 40px;">
+        {popularCommunes.map((c) => (
+          <div style="border: 1.5px solid var(--border-color); border-radius: var(--radius-sm); padding: 18px; background: var(--bg); transition: var(--transition);">
+            <a href={`/remplacement-fenetre-${c.slug}/`} style="font-weight: 700; font-size: 15.5px; color: var(--primary); display: flex; justify-content: space-between; text-decoration: none;">
+              <span>{c.nom}</span>
+              <span>&rarr;</span>
+            </a>
+            <div style="display: flex; gap: 8px; margin-top: 10px; font-size: 11.5px;">
+              <a href={`/fenetre-alu-${c.slug}/`} style="color: var(--text-muted); text-decoration: none;" title={`Fenêtre alu ${c.nom}`}>📐 Fenêtre Alu</a> ·
+              <a href={`/artisan-menuisier-${c.slug}/`} style="color: var(--text-muted); text-decoration: none;" title={`Artisan RGE ${c.nom}`}>🛡️ Artisan RGE</a>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <div style="text-align: center;">
+        <a href="/communes/" style="font-weight: 700; font-size: 16px; color: var(--secondary); text-decoration: none; border-bottom: 2.5px solid var(--secondary); padding-bottom: 4px;">
+          📍 Voir la liste complète des {communes.length} communes desservies &rarr;
+        </a>
+      </div>
+    </div>
+  </section>
+</Layout>

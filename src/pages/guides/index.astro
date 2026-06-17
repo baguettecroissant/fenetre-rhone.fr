@@ -1,0 +1,73 @@
+---
+import { getCollection } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+import Breadcrumb from '../../components/Breadcrumb.astro';
+
+const guides = await getCollection('guides');
+// Sort guides by date descending
+const sortedGuides = guides.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+
+const title = "Guides & Conseils Remplacement de Fenêtres Rhône (69) — Artisans RGE";
+const description = "Retrouvez tous nos dossiers d'experts, guides et conseils techniques pour réussir le changement de vos fenêtres PVC, Alu, Bois dans le Rhône (69).";
+
+const breadcrumbItems = [
+  { label: "Accueil", href: "/" },
+  { label: "Guides" }
+];
+---
+<Layout title={title} description={description}>
+  <Breadcrumb items={breadcrumbItems} />
+  
+  <section class="guides-hero" style="background: linear-gradient(135deg, var(--primary) 0%, #3B0918 100%); color: white; padding: 60px 0; border-bottom: 5px solid var(--secondary); text-align: center; position: relative;">
+    <div class="container" style="position: relative; z-index: 2;">
+      <h1 style="font-family: var(--font-heading); font-size: 36px; font-weight: 950; margin-bottom: 15px; color: white;">
+        Guides &amp; Conseils Rénovation Fenêtres
+      </h1>
+      <p style="font-size: 18px; max-width: 700px; margin: 0 auto; color: var(--primary-light); line-height: 1.6;">
+        Toutes les informations techniques, réglementations d'urbanisme ABF, calculs thermiques DPE et aides financières 2026 pour le Rhône.
+      </p>
+    </div>
+  </section>
+
+  <section style="padding: 60px 0; background-color: var(--bg);">
+    <div class="container">
+      <div class="guides-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 30px;">
+        {sortedGuides.map((guide) => (
+          <article class="guide-card" style="background: var(--card-bg); border-radius: var(--radius-md); border: 1.5px solid var(--border-color); box-shadow: var(--shadow-sm); overflow: hidden; display: flex; flex-direction: column; transition: transform 0.2s ease, box-shadow 0.2s ease;">
+            <div style="aspect-ratio: 16/9; overflow: hidden; position: relative; background-color: var(--primary-light);">
+              <img src={guide.data.image} alt={guide.data.imageAlt} style="width: 100%; height: 100%; object-fit: cover;" loading="lazy" />
+            </div>
+            <div style="padding: 25px; display: flex; flex-direction: column; flex-grow: 1;">
+              <span style="font-family: var(--font-mono); font-size: 11px; color: var(--text-muted); text-transform: uppercase; margin-bottom: 10px; display: block;">
+                🗓️ {guide.data.pubDate.toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' })}
+              </span>
+              <h2 style="font-family: var(--font-heading); font-size: 18px; font-weight: 800; color: var(--primary); margin: 0 0 12px; line-height: 1.45;">
+                <a href={`/guides/${guide.id}/`} style="color: inherit; text-decoration: none;" class="hover-link">{guide.data.title}</a>
+              </h2>
+              <p style="font-size: 14px; line-height: 1.6; color: var(--text-muted); margin: 0 0 20px; flex-grow: 1;">
+                {guide.data.description}
+              </p>
+              <div style="display: flex; align-items: center; justify-content: space-between; border-top: 1px solid var(--primary-light); padding-top: 15px; margin-top: auto;">
+                <span style="font-size: 12.5px; color: var(--text); font-weight: 600;">{guide.data.author}</span>
+                <a href={`/guides/${guide.id}/`} style="color: var(--secondary); font-weight: 800; font-size: 13.5px; text-decoration: none; display: flex; align-items: center; gap: 4px;">
+                  Lire le guide &rarr;
+                </a>
+              </div>
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .guide-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-md) !important;
+    border-color: var(--secondary) !important;
+  }
+  .hover-link:hover {
+    color: var(--secondary) !important;
+  }
+</style>
