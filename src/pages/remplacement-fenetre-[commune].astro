@@ -134,41 +134,15 @@ const breadcrumbItems = [
           </h2>
           <p>Qu'il s'agisse d'un appartement haussmannien en Presqu'île ou d'une maison de lotissement à {commune.nom}, nos artisans RGE appliquent un protocole rigoureux :</p>
           <div style="display: grid; grid-template-columns: 1fr; gap: 16px; margin: 20px 0;">
-            <div style="display: flex; gap: 15px; padding: 18px; background: var(--primary-light); border-radius: var(--radius-sm); border-left: 4px solid var(--secondary);">
-              <span style="font-size: 24px; font-weight: 900; color: var(--secondary); min-width: 32px;">1</span>
-              <div>
-                <strong style="color: var(--primary); font-family: var(--font-heading);">Diagnostic technique à domicile</strong>
-                <p style="margin: 5px 0 0; font-size: 13.5px; color: var(--text-muted);">Prise de cotes précises, étude de l'exposition au vent (« {commune.windExposure} »), et vérification de la maçonnerie existante pour définir la méthode de pose.</p>
+            {content.poseSteps.map((step, idx) => (
+              <div style="display: flex; gap: 15px; padding: 18px; background: var(--primary-light); border-radius: var(--radius-sm); border-left: 4px solid var(--secondary);">
+                <span style="font-size: 24px; font-weight: 900; color: var(--secondary); min-width: 32px;">{idx + 1}</span>
+                <div>
+                  <strong style="color: var(--primary); font-family: var(--font-heading);">{step.title}</strong>
+                  <p style="margin: 5px 0 0; font-size: 13.5px; color: var(--text-muted);">{step.description}</p>
+                </div>
               </div>
-            </div>
-            <div style="display: flex; gap: 15px; padding: 18px; background: var(--primary-light); border-radius: var(--radius-sm); border-left: 4px solid var(--secondary);">
-              <span style="font-size: 24px; font-weight: 900; color: var(--secondary); min-width: 32px;">2</span>
-              <div>
-                <strong style="color: var(--primary); font-family: var(--font-heading);">Simulation financière des aides</strong>
-                <p style="margin: 5px 0 0; font-size: 13.5px; color: var(--text-muted);">Estimation gratuite de votre reste à charge en intégrant la TVA 5,5%, la prime énergie CEE et l'aide MaPrimeRénov' de l'ANAH.</p>
-              </div>
-            </div>
-            <div style="display: flex; gap: 15px; padding: 18px; background: var(--primary-light); border-radius: var(--radius-sm); border-left: 4px solid var(--secondary);">
-              <span style="font-size: 24px; font-weight: 900; color: var(--secondary); min-width: 32px;">3</span>
-              <div>
-                <strong style="color: var(--primary); font-family: var(--font-heading);">Déclaration en mairie (Urbanisme)</strong>
-                <p style="margin: 5px 0 0; font-size: 13.5px; color: var(--text-muted);">{commune.secteurSauvegarde ? `En zone protégée ou d'intérêt patrimonial à ${commune.nom}, l'accord de l'Architecte des Bâtiments de France (ABF) est obligatoire. Nous vous aidons à constituer le dossier.` : `Dépôt d'une Déclaration Préalable (DP) en mairie de ${commune.nom} pour valider le changement d'aspect extérieur.`}</p>
-              </div>
-            </div>
-            <div style="display: flex; gap: 15px; padding: 18px; background: var(--primary-light); border-radius: var(--radius-sm); border-left: 4px solid var(--secondary);">
-              <span style="font-size: 24px; font-weight: 900; color: var(--secondary); min-width: 32px;">4</span>
-              <div>
-                <strong style="color: var(--primary); font-family: var(--font-heading);">Fabrication sur mesure et Installation</strong>
-                <p style="margin: 5px 0 0; font-size: 13.5px; color: var(--text-muted);">Vos menuiseries sont livrées et installées. L'artisan RGE effectue la pose (compter 1 à 2 jours pour une maison de ${commune.logementsMaison > 50 ? 'taille standard' : 'taille moyenne'}) en veillant à la propreté du chantier.</p>
-              </div>
-            </div>
-            <div style="display: flex; gap: 15px; padding: 18px; background: var(--primary-light); border-radius: var(--radius-sm); border-left: 4px solid var(--secondary);">
-              <span style="font-size: 24px; font-weight: 900; color: var(--secondary); min-width: 32px;">5</span>
-              <div>
-                <strong style="color: var(--primary); font-family: var(--font-heading);">Livraison et versement des subventions</strong>
-                <p style="margin: 5px 0 0; font-size: 13.5px; color: var(--text-muted);">Réception des travaux, signature de la facture acquittée et transmission des pièces pour l'octroi des aides sous 30 à 60 jours.</p>
-              </div>
-            </div>
+            ))}
           </div>
 
           <h2 style="font-family: var(--font-heading); font-size: 24px; font-weight: 850; color: var(--primary); margin-top: 40px; margin-bottom: 15px;">
@@ -219,7 +193,7 @@ const breadcrumbItems = [
               </tbody>
             </table>
           </div>
-          <p style="font-size: 13.5px; color: var(--text-muted);">Le double vitrage renforcé à contrôle solaire représente le meilleur rapport qualité/prix isolant pour le climat rhodanien. Le triple vitrage est à réserver aux façades exposées au nord en altitude ou proches de zones particulièrement froides.</p>
+          <p style="font-size: 13.5px; color: var(--text-muted);">{content.vitrageRecommendation}</p>
 
           <h2 style="font-family: var(--font-heading); font-size: 24px; font-weight: 850; color: var(--primary); margin-top: 35px; margin-bottom: 15px;">
             Grille indicative des prix fenêtres à {commune.nom}
@@ -295,6 +269,22 @@ const breadcrumbItems = [
 
           <p style="font-size: 12px; color: var(--text-muted); margin-top: 30px; padding-top: 15px; border-top: 1px solid var(--border-color); line-height: 1.5; font-style: italic;">
             {content.sourcesCitation} Barèmes actualisés du Rhône : Juin 2026.
+          </p>
+
+          <!-- Diagnostic Énergétique Local -->
+          <h2 style="font-family: var(--font-heading); font-size: 24px; font-weight: 850; color: var(--primary); margin-top: 40px; margin-bottom: 15px;">
+            Diagnostic énergétique du parc résidentiel de {commune.nom}
+          </h2>
+          <p>
+            {content.diagnosticEnergetique}
+          </p>
+
+          <!-- Calendrier Idéal de Rénovation -->
+          <h2 style="font-family: var(--font-heading); font-size: 24px; font-weight: 850; color: var(--primary); margin-top: 35px; margin-bottom: 15px;">
+            Quand remplacer vos fenêtres à {commune.nom} ? Le bon calendrier
+          </h2>
+          <p>
+            {content.calendrierRenovation}
           </p>
 
           <!-- pSEO dynamic guide links -->

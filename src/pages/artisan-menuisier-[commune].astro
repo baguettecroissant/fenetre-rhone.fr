@@ -134,27 +134,15 @@ const breadcrumbItems = [
           </h2>
           <p>Pour vos fenêtres à {commune.nom}, veillez à ce que votre artisan présente les garanties réglementaires suivantes :</p>
           <div style="display: grid; grid-template-columns: 1fr; gap: 16px; margin: 20px 0;">
-            <div style="display: flex; gap: 15px; padding: 18px; background: var(--primary-light); border-radius: var(--radius-sm); border-left: 4px solid var(--secondary);">
-              <span style="font-size: 24px; font-weight: 900; color: var(--secondary); min-width: 32px;">1</span>
-              <div>
-                <strong style="color: var(--primary); font-family: var(--font-heading);">Le label RGE (Qualibat, Certibat ou Poseur de fenêtres)</strong>
-                <p style="margin: 5px 0 0; font-size: 13.5px; color: var(--text-muted);">Il doit être valide à la date de signature du devis et de fin de travaux. Il garantit que l'entreprise est auditée périodiquement sur la qualité de son travail énergétique.</p>
+            {content.rgeCertifications.map((cert, idx) => (
+              <div style="display: flex; gap: 15px; padding: 18px; background: var(--primary-light); border-radius: var(--radius-sm); border-left: 4px solid var(--secondary);">
+                <span style="font-size: 24px; font-weight: 900; color: var(--secondary); min-width: 32px;">{idx + 1}</span>
+                <div>
+                  <strong style="color: var(--primary); font-family: var(--font-heading);">{cert.title}</strong>
+                  <p style="margin: 5px 0 0; font-size: 13.5px; color: var(--text-muted);">{cert.description}</p>
+                </div>
               </div>
-            </div>
-            <div style="display: flex; gap: 15px; padding: 18px; background: var(--primary-light); border-radius: var(--radius-sm); border-left: 4px solid var(--secondary);">
-              <span style="font-size: 24px; font-weight: 900; color: var(--secondary); min-width: 32px;">2</span>
-              <div>
-                <strong style="color: var(--primary); font-family: var(--font-heading);">L'Assurance Décennale obligatoire</strong>
-                <p style="margin: 5px 0 0; font-size: 13.5px; color: var(--text-muted);">Elle vous protège pendant 10 ans contre tout vice de pose compromettant l'étanchéité, l'isolation ou la solidité des châssis et de la maçonnerie attenante.</p>
-              </div>
-            </div>
-            <div style="display: flex; gap: 15px; padding: 18px; background: var(--primary-light); border-radius: var(--radius-sm); border-left: 4px solid var(--secondary);">
-              <span style="font-size: 24px; font-weight: 900; color: var(--secondary); min-width: 32px;">3</span>
-              <div>
-                <strong style="color: var(--primary); font-family: var(--font-heading);">Le respect de la norme DTU 36.5</strong>
-                <p style="margin: 5px 0 0; font-size: 13.5px; color: var(--text-muted);">Il s'agit du recueil officiel des règles de pose pour les menuiseries extérieures. Un artisan qualifié RGE l'applique à la lettre (fixations, compriband d'étanchéité, traitement des rejingots).</p>
-              </div>
-            </div>
+            ))}
           </div>
 
           <h2 style="font-family: var(--font-heading); font-size: 24px; font-weight: 850; color: var(--primary); margin-top: 40px; margin-bottom: 15px;">
@@ -216,6 +204,22 @@ const breadcrumbItems = [
 
           <p style="font-size: 12px; color: var(--text-muted); margin-top: 30px; padding-top: 15px; border-top: 1px solid var(--border-color); line-height: 1.5; font-style: italic;">
             {content.sourcesCitation} Données collectées auprès des professionnels du Rhône.
+          </p>
+
+          <!-- Diagnostic Énergétique Local -->
+          <h2 style="font-family: var(--font-heading); font-size: 24px; font-weight: 850; color: var(--primary); margin-top: 40px; margin-bottom: 15px;">
+            Couverture RGE et parc de logements à {commune.nom}
+          </h2>
+          <p>
+            {content.diagnosticEnergetique}
+          </p>
+
+          <!-- Calendrier Idéal -->
+          <h2 style="font-family: var(--font-heading); font-size: 24px; font-weight: 850; color: var(--primary); margin-top: 35px; margin-bottom: 15px;">
+            Quand planifier vos travaux de menuiserie à {commune.nom} ?
+          </h2>
+          <p>
+            {content.calendrierRenovation}
           </p>
 
           <!-- pSEO dynamic guide links -->

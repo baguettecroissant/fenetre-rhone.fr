@@ -134,27 +134,15 @@ const breadcrumbItems = [
           </h2>
           <p>L'aluminium présente des caractéristiques techniques optimales pour les habitations de {commune.nom} :</p>
           <div style="display: grid; grid-template-columns: 1fr; gap: 16px; margin: 20px 0;">
-            <div style="display: flex; gap: 15px; padding: 18px; background: var(--primary-light); border-radius: var(--radius-sm); border-left: 4px solid var(--secondary);">
-              <span style="font-size: 24px; font-weight: 900; color: var(--secondary); min-width: 32px;">1</span>
-              <div>
-                <strong style="color: var(--primary); font-family: var(--font-heading);">Finesse des profilés et apports solaires (Sw)</strong>
-                <p style="margin: 5px 0 0; font-size: 13.5px; color: var(--text-muted);">Les montants fins augmentent la surface vitrée de 15% par rapport au PVC. Vous captez plus de lumière naturelle et bénéficiez d'une chaleur gratuite en hiver.</p>
+            {content.aluAdvantages.map((adv, idx) => (
+              <div style="display: flex; gap: 15px; padding: 18px; background: var(--primary-light); border-radius: var(--radius-sm); border-left: 4px solid var(--secondary);">
+                <span style="font-size: 24px; font-weight: 900; color: var(--secondary); min-width: 32px;">{idx + 1}</span>
+                <div>
+                  <strong style="color: var(--primary); font-family: var(--font-heading);">{adv.title}</strong>
+                  <p style="margin: 5px 0 0; font-size: 13.5px; color: var(--text-muted);">{adv.description}</p>
+                </div>
               </div>
-            </div>
-            <div style="display: flex; gap: 15px; padding: 18px; background: var(--primary-light); border-radius: var(--radius-sm); border-left: 4px solid var(--secondary);">
-              <span style="font-size: 24px; font-weight: 900; color: var(--secondary); min-width: 32px;">2</span>
-              <div>
-                <strong style="color: var(--primary); font-family: var(--font-heading);">Solidité structurelle</strong>
-                <p style="margin: 5px 0 0; font-size: 13.5px; color: var(--text-muted);">L'aluminium est idéal pour les grandes dimensions comme les baies vitrées coulissantes de terrasses ou les verrières. Aucun risque de déformation dans le temps.</p>
-              </div>
-            </div>
-            <div style="display: flex; gap: 15px; padding: 18px; background: var(--primary-light); border-radius: var(--radius-sm); border-left: 4px solid var(--secondary);">
-              <span style="font-size: 24px; font-weight: 900; color: var(--secondary); min-width: 32px;">3</span>
-              <div>
-                <strong style="color: var(--primary); font-family: var(--font-heading);">Bicoloration et choix de finitions (RAL)</strong>
-                <p style="margin: 5px 0 0; font-size: 13.5px; color: var(--text-muted);">Choisissez une teinte extérieure pour respecter la façade (comme le gris anthracite RAL 7016, très prisé dans le Rhône) et du blanc à l'intérieur pour préserver la clarté des pièces.</p>
-              </div>
-            </div>
+            ))}
           </div>
 
           <h2 style="font-family: var(--font-heading); font-size: 24px; font-weight: 850; color: var(--primary); margin-top: 40px; margin-bottom: 15px;">
@@ -221,6 +209,22 @@ const breadcrumbItems = [
 
           <p style="font-size: 12px; color: var(--text-muted); margin-top: 30px; padding-top: 15px; border-top: 1px solid var(--border-color); line-height: 1.5; font-style: italic;">
             {content.sourcesCitation} Données actualisées : Juin 2026.
+          </p>
+
+          <!-- Diagnostic Énergétique Local -->
+          <h2 style="font-family: var(--font-heading); font-size: 24px; font-weight: 850; color: var(--primary); margin-top: 40px; margin-bottom: 15px;">
+            Profil énergétique et parc de logements à {commune.nom}
+          </h2>
+          <p>
+            {content.diagnosticEnergetique}
+          </p>
+
+          <!-- Calendrier Idéal -->
+          <h2 style="font-family: var(--font-heading); font-size: 24px; font-weight: 850; color: var(--primary); margin-top: 35px; margin-bottom: 15px;">
+            Meilleure période pour installer vos fenêtres alu à {commune.nom}
+          </h2>
+          <p>
+            {content.calendrierRenovation}
           </p>
 
           <!-- pSEO dynamic guide links -->

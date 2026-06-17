@@ -1,3 +1,17 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
-  <text y=".9em" font-size="90">🏠</text>
+  <!-- Window frame background in Grenat (#6B1D36) -->
+  <rect x="5" y="5" width="90" height="90" rx="16" fill="#6B1D36" />
+  
+  <!-- Four glass panes in primary-light (#FDF2F8) -->
+  <!-- Top Left Pane -->
+  <rect x="15" y="15" width="31" height="31" rx="4" fill="#FDF2F8" />
+  <!-- Top Right Pane -->
+  <rect x="54" y="15" width="31" height="31" rx="4" fill="#FDF2F8" />
+  <!-- Bottom Left Pane -->
+  <rect x="15" y="54" width="31" height="31" rx="4" fill="#FDF2F8" />
+  <!-- Bottom Right Pane -->
+  <rect x="54" y="54" width="31" height="31" rx="4" fill="#FDF2F8" />
+  
+  <!-- A warm gold sparkle (#D97706) for a premium reflections look -->
+  <path d="M70 20 L72.5 26.5 L79 29 L72.5 31.5 L70 38 L67.5 31.5 L61 29 L67.5 26.5 Z" fill="#D97706" />
 </svg>
